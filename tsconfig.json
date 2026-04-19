@@ -21,7 +21,8 @@
     ],
     "paths": {
       "@/*": ["./client/src/*"],
-      "@shared/*": ["./shared/*"]
+      "@shared/*": ["./shared/*"]        
+      
     }
   }
 }
