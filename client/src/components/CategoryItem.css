@@ -1,0 +1,44 @@
+/**
+ * CategoryItem Animations and Styles
+ * 
+ * Swing Animation:
+ * - Pendulum-like motion with natural easing
+ * - Varies by delay to create staggered effect
+ * - Smooth, performance-optimized using transform
+ * - Pauses on hover for better interaction
+ */
+
+@keyframes swing {
+  0% {
+    transform: rotateZ(-3deg);
+  }
+  50% {
+    transform: rotateZ(3deg);
+  }
+  100% {
+    transform: rotateZ(-3deg);
+  }
+}
+
+/* Ensure smooth animation performance */
+.yarn-ball-container {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  /* Reduce animation intensity on mobile for better performance */
+  @keyframes swing {
+    0% {
+      transform: rotateZ(-2deg);
+    }
+    50% {
+      transform: rotateZ(2deg);
+    }
+    100% {
+      transform: rotateZ(-2deg);
+    }
+  }
+}
