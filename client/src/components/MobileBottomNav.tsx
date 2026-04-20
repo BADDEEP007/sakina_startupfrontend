@@ -58,7 +58,7 @@ export default function MobileBottomNav() {
     { id: "explore", label: "Explore", href: "/marketplace", icon: (a: boolean) => <IconExplore a={a} /> },
     { id: "cart",    label: "Cart",    href: "/cart",        icon: (a: boolean) => <IconCart a={a} badge={totalItems} />, onTap: () => openDrawer() },
     { id: "orders",  label: "Orders",  href: "/orders",      icon: (a: boolean) => <IconOrders a={a} /> },
-    { id: "profile", label: "Profile", href: isLoggedIn ? "/seller/profile" : "/login", icon: (a: boolean) => <IconProfile a={a} /> },
+    { id: "profile", label: "Profile", href: isLoggedIn ? "/profile" : "/login", icon: (a: boolean) => <IconProfile a={a} /> },
   ];
 
   return (

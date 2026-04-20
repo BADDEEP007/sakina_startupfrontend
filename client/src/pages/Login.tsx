@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import AuthLayout from "@/components/auth/AuthLayout";
 import AuthCard from "@/components/auth/AuthCard";
 import InputField from "@/components/auth/InputField";
 import { useGoogleAuth } from "@/hooks/useGoogleAuth";
 import { useEmailAuth } from "@/hooks/useEmailAuth";
+import { useAuth } from "@/contexts/AuthContext";
 
 // ─── Shared sub-components ────────────────────────────────────────────────────
 
@@ -91,6 +92,14 @@ export default function Login() {
 
   const { signIn: googleSignIn, isLoading: googleLoading, error: googleError } = useGoogleAuth();
   const { signIn: emailSignIn, isLoading: emailLoading, error: emailError, clearError } = useEmailAuth();
+  const { isLoggedIn } = useAuth();
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (isLoggedIn) {
+      setLocation("/profile");
+    }
+  }, [isLoggedIn, setLocation]);
 
   const loading = googleLoading || emailLoading || transitioning;
 

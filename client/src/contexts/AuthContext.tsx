@@ -27,7 +27,6 @@ interface AuthState {
 }
 
 type AuthAction =
-  | { type: "HYDRATE"; user: User | null; token: string | null }
   | { type: "LOGIN";   user: User; token: string }
   | { type: "LOGOUT" }
   | { type: "SET_SELLER" }
@@ -64,8 +63,6 @@ function saveSession(user: User | null, token: string | null) {
 
 function reducer(state: AuthState, action: AuthAction): AuthState {
   switch (action.type) {
-    case "HYDRATE":
-      return { user: action.user, token: action.token, isLoading: false };
     case "LOGIN":
       return { ...state, user: action.user, token: action.token };
     case "LOGOUT":
@@ -102,20 +99,19 @@ const AuthContext = createContext<AuthContextValue | null>(null);
 // ─── Provider ─────────────────────────────────────────────────────────────────
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+  // Initialize with synchronous localStorage read to prevent hydration issues
   const [state, dispatch] = useReducer(reducer, {
     user: null, token: null, isLoading: true,
-  });
-
-  // Hydrate from localStorage — runs before first paint to prevent flicker
-  useEffect(() => {
+  }, () => {
+    // This initializer runs synchronously before first render
     const { user, token } = loadSession();
-    dispatch({ type: "HYDRATE", user, token });
-  }, []);
+    return { user, token, isLoading: false };
+  });
 
   // Persist on every change
   useEffect(() => {
-    if (!state.isLoading) saveSession(state.user, state.token);
-  }, [state.user, state.token, state.isLoading]);
+    saveSession(state.user, state.token);
+  }, [state.user, state.token]);
 
   const logout = useCallback(() => {
     dispatch({ type: "LOGOUT" });
@@ -143,15 +139,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }),
     [state, login, logout, markAsSeller, updateUser]
   );
-
-  // Block render until hydration completes — prevents navbar flicker
-  if (state.isLoading) {
-    return (
-      <AuthContext.Provider value={value}>
-        <div style={{ visibility: "hidden" }}>{children}</div>
-      </AuthContext.Provider>
-    );
-  }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

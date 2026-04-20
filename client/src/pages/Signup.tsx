@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import AuthLayout from "@/components/auth/AuthLayout";
 import AuthCard from "@/components/auth/AuthCard";
 import InputField from "@/components/auth/InputField";
 import { useGoogleAuth } from "@/hooks/useGoogleAuth";
 import { useEmailAuth } from "@/hooks/useEmailAuth";
+import { useAuth } from "@/contexts/AuthContext";
 
 function Spinner() {
   return (
@@ -94,8 +95,16 @@ export default function Signup() {
   const [confirm, setConfirm] = useState("");
   const [transitioning, setTransitioning] = useState(false);
 
+  const { isLoggedIn } = useAuth();
   const { signIn: googleSignIn, isLoading: googleLoading, error: googleError } = useGoogleAuth();
   const { signUp, isLoading: emailLoading, error: emailError, clearError } = useEmailAuth();
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (isLoggedIn) {
+      setLocation("/profile");
+    }
+  }, [isLoggedIn, setLocation]);
 
   const loading = googleLoading || emailLoading || transitioning;
   const mismatch = confirm.length > 0 && password !== confirm;
