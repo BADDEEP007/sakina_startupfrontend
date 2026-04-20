@@ -100,7 +100,7 @@ export default function Cart() {
 
             {/* ── Order summary ── */}
             <div style={{
-              background: "#fff", borderRadius: 24, padding: "24px",
+              background: "#fff",
               boxShadow: "0 4px 20px rgba(196,164,132,0.10)",
               border: "1px solid rgba(196,164,132,0.1)",
               position: isMobile ? "fixed" : "sticky", 

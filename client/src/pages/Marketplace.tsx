@@ -252,7 +252,6 @@ export default function Marketplace() {
               style={{
                 display: "flex", alignItems: "center", gap: 8,
                 fontFamily: "'Poppins',sans-serif", fontWeight: 700, fontSize: 13,
-                color: "#3d2b1f",
                 background: activeFilterCount > 0
                   ? "linear-gradient(135deg, #f4a7b9 0%, #c4a484 100%)"
                   : "#fff",
