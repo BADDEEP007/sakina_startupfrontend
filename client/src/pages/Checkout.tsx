@@ -101,7 +101,7 @@ export default function Checkout() {
           </p>
           <div style={{ padding: "12px 14px", background: "#FAF7F4", borderRadius: 12, border: "1px dashed rgba(196,164,132,0.4)" }}>
             <p style={{ fontFamily: "'Inter','Poppins',sans-serif", fontSize: 13, color: "#4A4A4A", margin: 0 }}>
-              123 Handmade Lane, Craft City, CA 90210
+              123 Feedle Lane, Craft City, CA 90210
             </p>
           </div>
         </div>

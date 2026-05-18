@@ -260,7 +260,7 @@ export default function DualCTA() {
           overlayTo="rgba(196,164,132,0.72)"
           eyebrow="For shoppers"
           heading={"Find Something\nMade Just for You"}
-          subtext="Discover one-of-a-kind handmade pieces crafted with love — no two are ever the same."
+          subtext="Discover one-of-a-kind handcrafted pieces crafted with care — no two are ever the same."
           buttonLabel="Shop Now"
           buttonColor="#fff"
           buttonTextColor="#7a5c44"
@@ -285,7 +285,7 @@ export default function DualCTA() {
           overlayTo="rgba(244,167,185,0.68)"
           eyebrow="For creators"
           heading={"Turn Your Craft\ninto a Business"}
-          subtext="Join a community of artisans and reach customers who truly value handmade work."
+          subtext="Join a community of artisans and reach customers who truly value handcrafted work."
           buttonLabel="Join as Seller"
           buttonColor="#fff"
           buttonTextColor="#6b4fa0"

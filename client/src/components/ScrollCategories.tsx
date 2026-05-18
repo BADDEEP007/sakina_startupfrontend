@@ -123,7 +123,7 @@ export default function ScrollCategories() {
             Shop by Category
           </h2>
           <p className="text-foreground/60 font-quicksand text-base">
-            Explore our handmade collections.
+            Explore our handcrafted collections.
           </p>
         </div>
         <div className="overflow-x-auto pb-4 px-6">

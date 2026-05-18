@@ -34,8 +34,8 @@ type AuthAction =
 
 // ─── localStorage helpers ─────────────────────────────────────────────────────
 
-const LS_USER  = "handmade_auth_v1";
-const LS_TOKEN = "handmade_token_v1";
+const LS_USER  = "feedle_auth_v1";
+const LS_TOKEN = "feedle_token_v1";
 
 function loadSession(): { user: User | null; token: string | null } {
   try {

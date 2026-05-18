@@ -172,7 +172,7 @@ export default function TactileCategories() {
             margin: 0,
           }}
         >
-          Explore our handmade collections.
+          Explore our handcrafted collections.
         </p>
       </div>
 

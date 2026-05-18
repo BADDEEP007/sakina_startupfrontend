@@ -138,7 +138,7 @@ export default function Login() {
               Log In
             </h1>
             <p style={{ fontFamily: "'Inter','Poppins',sans-serif", fontSize: 13.5, color: "#8a6a55", margin: 0 }}>
-              Welcome back — your handmade world awaits.
+              Welcome back — your Feedle world awaits.
             </p>
           </div>
 

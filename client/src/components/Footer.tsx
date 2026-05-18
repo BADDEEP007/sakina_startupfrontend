@@ -170,18 +170,16 @@ export default function Footer() {
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18 }}>
             <div style={{
               width: 40, height: 40, borderRadius: "50%",
-              background: "linear-gradient(135deg, #f4a7b9 0%, #c4a484 100%)",
+              background: "linear-gradient(135deg, #FF8A65 0%, #4FC3F7 100%)",
               display: "flex", alignItems: "center", justifyContent: "center",
-              boxShadow: "0 4px 14px rgba(244,167,185,0.3)",
+              boxShadow: "0 4px 14px rgba(255,138,101,0.3)",
               flexShrink: 0,
             }}>
-              <span style={{ color: "#fff", fontSize: 18, lineHeight: 1 }}>✦</span>
+              <span style={{ color: "#fff", fontSize: 18, lineHeight: 1 }}>f</span>
             </div>
             <div>
               <p style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 16,
-                color: "#f5e6cc", margin: 0, lineHeight: 1.1 }}>Handmade</p>
-              <p style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 400, fontSize: 10.5,
-                color: "rgba(245,230,204,0.5)", margin: 0, letterSpacing: "0.08em" }}>with Love</p>
+                color: "#f5e6cc", margin: 0, lineHeight: 1.1 }}>Feedle</p>
             </div>
           </div>
 
@@ -190,7 +188,7 @@ export default function Footer() {
             fontFamily: "'Poppins',sans-serif", fontWeight: 400, fontSize: 13,
             color: "rgba(245,230,204,0.6)", lineHeight: 1.75, marginBottom: 24, maxWidth: 240,
           }}>
-            A marketplace for handcrafted crochet pieces — made slowly, with care, by real people who love their craft.
+            A marketplace for handcrafted pieces — where creators share their passion and buyers discover unique treasures.
           </p>
 
           {/* Social icons */}
@@ -256,11 +254,11 @@ export default function Footer() {
         >
           <p style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 400, fontSize: 12,
             color: "rgba(245,230,204,0.38)", margin: 0 }}>
-            © 2026 Handmade with Love. All rights reserved.
+            © 2026 Feedle. All rights reserved.
           </p>
           <p style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 500, fontSize: 12,
             color: "rgba(245,230,204,0.38)", margin: 0 }}>
-            Made with love&nbsp;•&nbsp;Handmade marketplace
+            Made with care&nbsp;•&nbsp;Feedle marketplace
           </p>
         </div>
       </div>

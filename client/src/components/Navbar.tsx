@@ -34,12 +34,11 @@ export default function Navbar() {
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 no-underline">
-          <div className="w-10 h-10 rounded-full flex items-center justify-center shadow-sm" style={{ background: "#C45E73" }}>
-            <span className="text-white font-playfair text-lg font-bold">✦</span>
+          <div className="w-10 h-10 rounded-full flex items-center justify-center shadow-sm" style={{ background: "linear-gradient(135deg, #FF8A65 0%, #4FC3F7 100%)" }}>
+            <span className="text-white font-playfair text-lg font-bold">f</span>
           </div>
           <div>
-            <p className="text-lg font-playfair font-bold leading-tight" style={{ color: "#2A2A2A" }}>Handmade</p>
-            <p className="text-xs font-poppins" style={{ color: "#4A4A4A" }}>with Love</p>
+            <p className="text-lg font-playfair font-bold leading-tight" style={{ color: "#2A2A2A" }}>Feedle</p>
           </div>
         </Link>
 
@@ -50,7 +49,7 @@ export default function Navbar() {
               className="text-sm font-poppins transition-colors duration-300 relative group no-underline"
               style={{ color: "#4A4A4A" }}>
               {link.label}
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300" style={{ background: "#C45E73" }} />
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300" style={{ background: "#FF8A65" }} />
             </Link>
           ))}
         </div>
@@ -61,13 +60,13 @@ export default function Navbar() {
             isSeller ? (
               <button onClick={openPanel}
                 className="text-sm font-poppins font-semibold px-4 py-2 rounded-full"
-                style={{ background: "#C45E73", color: "#fff", border: "none", boxShadow: "0 3px 10px rgba(196,94,115,0.3)" }}>
+                style={{ background: "linear-gradient(135deg, #FF8A65 0%, #4FC3F7 100%)", color: "#fff", border: "none", boxShadow: "0 3px 10px rgba(255,138,101,0.3)" }}>
                 Seller Dashboard
               </button>
             ) : (
               <button onClick={() => setLocation("/seller/onboarding")}
                 className="text-sm font-poppins font-semibold px-4 py-2 rounded-full border"
-                style={{ borderColor: "#C45E73", color: "#C45E73" }}>
+                style={{ borderColor: "#FF8A65", color: "#FF8A65" }}>
                 Become a Seller
               </button>
             )
@@ -91,7 +90,7 @@ export default function Navbar() {
             <ShoppingCart size={20} />
             {totalItems > 0 && (
               <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] rounded-full flex items-center justify-center text-white font-poppins font-bold"
-                style={{ fontSize: 10, padding: "0 4px", background: "#C45E73" }}>
+                style={{ fontSize: 10, padding: "0 4px", background: "linear-gradient(135deg, #FF8A65 0%, #4FC3F7 100%)" }}>
                 {totalItems > 99 ? "99+" : totalItems}
               </span>
             )}

@@ -48,7 +48,7 @@ function makeCartId(productId: string, options: CartItemOptions) {
   return `${productId}::${JSON.stringify(options)}`;
 }
 
-const LS_KEY = "handmade_cart_v1";
+const LS_KEY = "feedle_cart_v1";
 
 function loadFromStorage(): CartItem[] {
   try {

@@ -6,7 +6,7 @@ import { useIsMobile } from "@/hooks/useMobile";
  * TECHNICAL HANDOFF: Shop by Category Section
  * 
  * Verbatim Text (H2): "Shop by Category"
- * Verbatim Text (P): "Explore our handmade collections."
+ * Verbatim Text (P): "Explore our handcrafted collections."
  * 
  * Category Grid/Scroll: For mobile, horizontal-scrolling list (flex overflow-x-auto)
  * of four (4) distinct, organically shaped squircle tiles.
@@ -84,7 +84,7 @@ export default function MobileCategories() {
         className="text-base font-poppins mb-6 px-2"
         style={{ color: "#4A4A4A" }}
       >
-        Explore our handmade collections.
+        Explore our handcrafted collections.
       </p>
 
       {/* Horizontal Scrollable Cards - Squircle Tiles */}

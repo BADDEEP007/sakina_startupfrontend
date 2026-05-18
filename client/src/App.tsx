@@ -25,11 +25,16 @@ import VerifyEmail from "./pages/VerifyEmail";
 import SellerOnboarding from "./pages/SellerOnboarding";
 import SellerProfile from "./pages/SellerProfile";
 import AddProduct from "./pages/AddProduct";
+import AboutPage from "./pages/AboutPage";
+import  ContactPage from "./pages/ContactPage"
+import "./pages/contact.css"
 
 function Router() {
   return (
     <Switch>
       <Route path="/"                   component={Home} />
+      <Route path="/about"                   component={AboutPage} />
+      <Route path="/contact"                   component={ContactPage} />
       <Route path="/login"              component={Login} />
       <Route path="/signup"             component={Signup} />
       <Route path="/marketplace"        component={Marketplace} />

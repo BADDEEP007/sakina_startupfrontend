@@ -257,7 +257,7 @@ export default function AddProduct() {
           <h1 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 28,
             color: "#3d2b1f", margin: "0 0 6px" }}>Add a Product</h1>
           <p style={{ fontFamily: "'Poppins',sans-serif", fontSize: 14, color: "#8a6a55", margin: 0 }}>
-            List your handmade creation and reach buyers who love unique pieces.
+            List your handcrafted creation and reach buyers who love unique pieces.
           </p>
         </div>
 

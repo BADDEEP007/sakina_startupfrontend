@@ -130,7 +130,7 @@ export default function Signup() {
             Create Account
           </h1>
           <p style={{ fontFamily: "'Inter','Poppins',sans-serif", fontSize: 13.5, color: "#8a6a55", margin: 0 }}>
-            Join a community that celebrates handmade.
+            Join a community that celebrates handcrafted.
           </p>
         </div>
 

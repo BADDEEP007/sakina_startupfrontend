@@ -137,17 +137,15 @@ function VisualPanel({ mode }: { mode: "login" | "signup" }) {
       >
         <div style={{
           width: 38, height: 38, borderRadius: "50%",
-          background: "linear-gradient(135deg, #f4a7b9 0%, #c4a484 100%)",
+          background: "linear-gradient(135deg, #FF8A65 0%, #4FC3F7 100%)",
           display: "flex", alignItems: "center", justifyContent: "center",
-          boxShadow: "0 4px 14px rgba(244,167,185,0.35)",
+          boxShadow: "0 4px 14px rgba(255,138,101,0.35)",
         }}>
-          <span style={{ color: "#fff", fontSize: 17 }}>✦</span>
+          <span style={{ color: "#fff", fontSize: 17 }}>f</span>
         </div>
         <div style={{ textAlign: "left" }}>
           <p style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 15,
-            color: "#3d2b1f", margin: 0, lineHeight: 1.1 }}>Handmade</p>
-          <p style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 400, fontSize: 10,
-            color: "#c4a484", margin: 0, letterSpacing: "0.08em" }}>with Love</p>
+            color: "#3d2b1f", margin: 0, lineHeight: 1.1 }}>Feedle</p>
         </div>
       </button>
 
@@ -170,8 +168,8 @@ function VisualPanel({ mode }: { mode: "login" | "signup" }) {
           color: "#8a6a55", lineHeight: 1.65, maxWidth: 280, margin: "0 auto",
         }}>
           {mode === "login"
-            ? "Log in to continue your handmade journey."
-            : "Create an account and discover handcrafted pieces made with love."}
+            ? "Log in to continue your Feedle journey."
+            : "Create an account and discover handcrafted pieces made with care."}
         </p>
       </div>
 

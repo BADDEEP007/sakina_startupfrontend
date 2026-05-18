@@ -76,7 +76,7 @@ export default function Categories() {
             Shop by Category
           </h2>
           <p className="text-foreground/60 font-quicksand text-lg max-w-2xl mx-auto">
-            Explore our handmade collections, each crafted with love and attention to detail.
+            Explore our handcrafted collections, each crafted with care and attention to detail.
           </p>
         </div>
 

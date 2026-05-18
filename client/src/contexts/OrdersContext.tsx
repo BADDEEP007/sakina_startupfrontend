@@ -22,7 +22,7 @@ type OrdersAction =
   | { type: "PLACE_ORDER"; order: Order }
   | { type: "HYDRATE"; orders: Order[] };
 
-const LS_KEY = "handmade_orders_v1";
+const LS_KEY = "feedle_orders_v1";
 
 function load(): Order[] {
   try { const r = localStorage.getItem(LS_KEY); return r ? JSON.parse(r) : []; }

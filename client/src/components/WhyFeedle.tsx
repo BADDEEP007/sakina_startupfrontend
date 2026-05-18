@@ -95,13 +95,13 @@ const FEATURES: Feature[] = [
   },
   {
     icon: <IconHeart />,
-    title: "Made with Love",
+    title: "Made with Care",
     description: "Behind every item is a maker who poured warmth and creativity into their craft, just for you.",
   },
 ];
 
 const TRUST_BADGES: TrustBadge[] = [
-  { icon: <IconCheck />,  label: "100% Handmade Products" },
+  { icon: <IconCheck />,  label: "100% Handcrafted Products" },
   { icon: <IconShield />, label: "Verified Sellers" },
   { icon: <IconLock />,   label: "Secure Checkout" },
   { icon: <IconStar />,   label: "Customer Loved" },
@@ -218,13 +218,13 @@ function FeatureBlock({
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
-export default function WhyHandmade() {
+export default function WhyFeedle() {
   const { ref: sectionRef, visible } = useFadeIn(0.1);
 
   return (
     <section
       ref={sectionRef}
-      id="why-handmade"
+      id="why-feedle"
       style={{
         position: "relative",
         width: "100%",
@@ -267,7 +267,7 @@ export default function WhyHandmade() {
           gap: 64,
           alignItems: "center",
         }}
-        className="why-handmade-grid"
+        className="why-feedle-grid"
       >
         {/* ════════════════════════════════════════
             LEFT — image
@@ -339,7 +339,7 @@ export default function WhyHandmade() {
             }}
           >
             <p style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 700, fontSize: 13,
-              color: "#7c5cbf", margin: 0 }}>✦ 100% Handmade</p>
+              color: "#7c5cbf", margin: 0 }}>✦ 100% Handcrafted</p>
           </div>
         </div>
 
@@ -464,7 +464,7 @@ export default function WhyHandmade() {
       {/* ── Responsive grid override ── */}
       <style>{`
         @media (max-width: 768px) {
-          .why-handmade-grid {
+          .why-feedle-grid {
             grid-template-columns: 1fr !important;
             gap: 40px !important;
           }
