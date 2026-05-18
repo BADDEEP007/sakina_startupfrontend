@@ -72,7 +72,7 @@ export default function Hero() {
           boxShadow: "0 4px 20px rgba(0,0,0,0.14)",
         }}>
           <img
-            src="https://images.unsplash.com/photo-1617791160505-6f00504e3519?w=400&q=90"
+            src="client/public/images/hero-crochet-flatlay-5ZM33zrHNzpk8HJt7TKQxi.webp"
             alt="" aria-hidden
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />

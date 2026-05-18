@@ -52,6 +52,30 @@ export default defineConfig({
         target: "http://localhost:3001",
         changeOrigin: true,
       },
+      "/products": {
+        target: "http://localhost:3002",
+        changeOrigin: true,
+      },
+      "/cart": {
+        target: "http://localhost:3002",
+        changeOrigin: true,
+      },
+      "/orders": {
+        target: "http://localhost:3002",
+        changeOrigin: true,
+      },
+      "/sellers": {
+        target: "http://localhost:3002",
+        changeOrigin: true,
+      },
+      "/reviews": {
+        target: "http://localhost:3002",
+        changeOrigin: true,
+      },
+      "/addresses": {
+        target: "http://localhost:3002",
+        changeOrigin: true,
+      },
     },
   },
 });

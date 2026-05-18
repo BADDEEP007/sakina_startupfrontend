@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import ProductGallery from "@/components/pdp/ProductGallery";
 import ProductTabs from "@/components/pdp/ProductTabs";
 import RelatedProducts from "@/components/pdp/RelatedProducts";
-import { PRODUCTS } from "@/data/products";
+import { productsApi, reviewsApi } from "@/lib/api";
 import { useIsMobile } from "@/hooks/useMobile";
 import { useCart } from "@/contexts/CartContext";
 
@@ -145,41 +145,124 @@ export default function ProductDetail() {
   const params = useParams<{ id: string }>();
   const [, setLocation] = useLocation();
   const isMobile = useIsMobile();
+  const { addToCart } = useCart();
 
-  const product = PRODUCTS.find((p) => p.id === params.id) ?? PRODUCTS[0];
-  const related = PRODUCTS.filter((p) => p.id !== product.id && p.category === product.category).slice(0, 4);
+  const [product, setProduct] = useState<any>(null);
+  const [related, setRelated] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const [selectedSize, setSelectedSize] = useState(product.availableSizes[0] ?? "");
-  const [selectedColor, setSelectedColor] = useState(product.availableColors[0]?.name ?? "");
+  const [selectedSize, setSelectedSize] = useState("");
+  const [selectedColor, setSelectedColor] = useState("");
   const [qty, setQty] = useState(1);
   const [wishlisted, setWishlisted] = useState(false);
   const [addedToCart, setAddedToCart] = useState(false);
-  const { addToCart } = useCart();
+
+  // Fetch product and related products
+  useEffect(() => {
+    const fetchProduct = async () => {
+      if (!params.id) return;
+      
+      try {
+        setLoading(true);
+        setError(null);
+        
+        // Fetch product details
+        const productData = await productsApi.getById(params.id);
+        setProduct(productData.product);
+        
+        // Fetch related products (same category)
+        if (productData.product?.category) {
+          const relatedData = await productsApi.getAll({
+            category: productData.product.category,
+            limit: 5,
+          });
+          const relatedProducts = (relatedData.products || []).filter(
+            (p: any) => p.id !== params.id
+          ).slice(0, 4);
+          setRelated(relatedProducts);
+        }
+      } catch (err) {
+        console.error("Failed to fetch product:", err);
+        setError("Failed to load product. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProduct();
+  }, [params.id]);
 
   // Reset state when product changes
   useEffect(() => {
-    setSelectedSize(product.availableSizes[0] ?? "");
-    setSelectedColor(product.availableColors[0]?.name ?? "");
-    setQty(1);
-    setAddedToCart(false);
-  }, [product.id]);
+    if (product) {
+      setSelectedSize(product.availableSizes?.[0] || product.size || "");
+      setSelectedColor(product.availableColors?.[0]?.name || "");
+      setQty(1);
+      setAddedToCart(false);
+    }
+  }, [product?.id]);
 
-  const handleAddToCart = () => {
-    addToCart({
-      productId: product.id,
-      name: product.name,
-      image: product.image,
-      price: product.price,
-      quantity: qty,
-      selectedOptions: {
-        size: selectedSize || undefined,
-        color: selectedColor || undefined,
-      },
-      sellerName: product.seller,
-    });
-    setAddedToCart(true);
-    setTimeout(() => setAddedToCart(false), 2000);
+  const handleAddToCart = async () => {
+    if (!product) return;
+    
+    try {
+      await addToCart({
+        productId: product.id,
+        name: product.name,
+        image: product.images?.[0] || product.image,
+        price: product.current_price || product.price,
+        quantity: qty,
+        selectedOptions: {
+          size: selectedSize || undefined,
+          color: selectedColor || undefined,
+        },
+        sellerName: product.seller_name || product.seller,
+      });
+      setAddedToCart(true);
+      setTimeout(() => setAddedToCart(false), 2000);
+    } catch (err) {
+      console.error("Failed to add to cart:", err);
+    }
   };
+
+  if (loading) {
+    return (
+      <div style={{ minHeight: "100vh", background: "#fdf8f2" }}>
+        <Navbar />
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "60px 24px", textAlign: "center" }}>
+          <div style={{ fontSize: 48, marginBottom: 16 }}>🧶</div>
+          <p style={{ fontFamily: "'Poppins',sans-serif", fontSize: 14, color: "#8a6a55" }}>
+            Loading product...
+          </p>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (error || !product) {
+    return (
+      <div style={{ minHeight: "100vh", background: "#fdf8f2" }}>
+        <Navbar />
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "60px 24px", textAlign: "center" }}>
+          <div style={{ fontSize: 48, marginBottom: 16 }}>⚠️</div>
+          <h2 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 700, fontSize: 20, color: "#3d2b1f", margin: "0 0 8px" }}>
+            {error || "Product not found"}
+          </h2>
+          <button onClick={() => setLocation("/marketplace")} style={{
+            fontFamily: "'Poppins',sans-serif", fontWeight: 700, fontSize: 13,
+            color: "#fff", background: "linear-gradient(135deg, #f4a7b9 0%, #c4a484 100%)",
+            border: "none", borderRadius: 50, padding: "11px 28px", cursor: "pointer",
+            boxShadow: "0 4px 14px rgba(244,167,185,0.3)", marginTop: 20,
+          }}>
+            Back to Marketplace
+          </button>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div style={{ minHeight: "100vh", background: "#fdf8f2" }}>
@@ -227,7 +310,7 @@ export default function ProductDetail() {
       >
         {/* ════ LEFT — Gallery ════ */}
         <div style={{ position: "sticky", top: 88 }}>
-          <ProductGallery images={product.gallery} name={product.name} />
+          <ProductGallery images={product.images || product.gallery || [product.image]} name={product.name} />
         </div>
 
         {/* ════ RIGHT — Info + Actions ════ */}
@@ -235,15 +318,15 @@ export default function ProductDetail() {
 
           {/* Badges */}
           <div style={{ display: "flex", gap: 8 }}>
-            {product.isNew && (
+            {product.is_new && (
               <span style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 700, fontSize: 10.5,
                 color: "#fff", background: "#c8b6ff", borderRadius: 50, padding: "4px 12px" }}>NEW</span>
             )}
-            {product.isBestSeller && (
+            {product.is_bestseller && (
               <span style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 700, fontSize: 10.5,
                 color: "#fff", background: "#f4a7b9", borderRadius: 50, padding: "4px 12px" }}>★ BEST SELLER</span>
             )}
-            {!product.inStock && (
+            {(product.stock || 0) === 0 && (
               <span style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 700, fontSize: 10.5,
                 color: "#fff", background: "rgba(160,128,112,0.7)", borderRadius: 50, padding: "4px 12px" }}>SOLD OUT</span>
             )}
@@ -264,18 +347,18 @@ export default function ProductDetail() {
                 padding: 0, textDecoration: "underline",
                 textDecorationColor: "rgba(196, 94, 115, 0.4)" }}
             >
-              Made by {product.seller}
+              Made by {product.seller_name || product.seller}
             </button>
           </div>
 
           {/* Rating */}
-          <Stars rating={product.rating} count={product.reviewCount} />
+          <Stars rating={product.rating || 0} count={product.review_count || 0} />
 
           {/* Price */}
           <div style={{ display: "flex", alignItems: "baseline", gap: 10 }}>
             <span style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800,
               fontSize: 34, color: "#d4856a", lineHeight: 1 }}>
-              ${product.price}
+              ${product.current_price || product.price}
             </span>
             <span style={{ fontFamily: "'Poppins',sans-serif", fontSize: 13,
               color: "#a08070" }}>USD · Free shipping over $50</span>
@@ -285,14 +368,14 @@ export default function ProductDetail() {
           <div style={{ height: 1, background: "rgba(196,164,132,0.15)" }} />
 
           {/* Size selector */}
-          {product.availableSizes.length > 0 && (
+          {(product.availableSizes || []).length > 0 && (
             <div>
               <p style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 700, fontSize: 13,
                 color: "#3d2b1f", margin: "0 0 10px" }}>
                 Size: <span style={{ fontWeight: 500, color: "#8a6a55" }}>{selectedSize}</span>
               </p>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                {product.availableSizes.map((s) => (
+                {product.availableSizes.map((s: string) => (
                   <OptionPill key={s} label={s} selected={selectedSize === s}
                     onClick={() => setSelectedSize(s)} />
                 ))}
@@ -301,14 +384,14 @@ export default function ProductDetail() {
           )}
 
           {/* Color selector */}
-          {product.availableColors.length > 0 && (
+          {(product.availableColors || []).length > 0 && (
             <div>
               <p style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 700, fontSize: 13,
                 color: "#3d2b1f", margin: "0 0 10px" }}>
                 Color: <span style={{ fontWeight: 500, color: "#8a6a55" }}>{selectedColor}</span>
               </p>
               <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                {product.availableColors.map((c) => (
+                {product.availableColors.map((c: any) => (
                   <ColorSwatch key={c.name} name={c.name} hex={c.hex}
                     selected={selectedColor === c.name}
                     onClick={() => setSelectedColor(c.name)} />
@@ -361,10 +444,10 @@ export default function ProductDetail() {
             <CTAButton
               label={addedToCart ? "✓ Added!" : "Add to Cart"}
               primary
-              disabled={!product.inStock}
+              disabled={(product.stock || 0) === 0}
               onClick={handleAddToCart}
             />
-            <CTAButton label="Buy Now" disabled={!product.inStock} />
+            <CTAButton label="Buy Now" disabled={(product.stock || 0) === 0} />
           </div>
 
           {/* Trust badges */}
@@ -414,18 +497,18 @@ export default function ProductDetail() {
             }}>
               <span style={{ color: "#fff", fontFamily: "'Poppins',sans-serif",
                 fontWeight: 800, fontSize: 16 }}>
-                {product.seller[0]}
+                {(product.seller_name || product.seller || "S")[0]}
               </span>
             </div>
             <div style={{ flex: 1 }}>
               <p style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 700, fontSize: 14,
-                color: "#3d2b1f", margin: 0 }}>{product.seller}</p>
+                color: "#3d2b1f", margin: 0 }}>{product.seller_name || product.seller}</p>
               <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 2 }}>
                 <svg width="12" height="12" viewBox="0 0 12 12">
                   <path d="M6 1l1.2 3.6H11L8.1 6.8l1.1 3.6L6 8.4l-3.2 2 1.1-3.6L1 4.6h3.8z" fill="#f4a7b9" />
                 </svg>
                 <span style={{ fontFamily: "'Poppins',sans-serif", fontSize: 12, color: "#8a6a55" }}>
-                  {product.sellerRating} · {product.sellerSales} sales
+                  {product.seller_rating || product.sellerRating || 5.0} · {product.seller_sales || product.sellerSales || 0} sales
                 </span>
               </div>
             </div>
@@ -458,8 +541,8 @@ export default function ProductDetail() {
           boxShadow: "0 -4px 20px rgba(196,164,132,0.12)",
         }}>
           <CTAButton label={addedToCart ? "✓ Added!" : "Add to Cart"} primary
-            disabled={!product.inStock} onClick={handleAddToCart} />
-          <CTAButton label="Buy Now" disabled={!product.inStock} />
+            disabled={(product.stock || 0) === 0} onClick={handleAddToCart} />
+          <CTAButton label="Buy Now" disabled={(product.stock || 0) === 0} />
         </div>
       )}
 

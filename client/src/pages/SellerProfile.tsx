@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useSeller } from "@/contexts/SellerContext";
 import { useAuth } from "@/contexts/AuthContext";
+import { sellersApi } from "@/lib/api";
 
 // ─── Seller side panel ────────────────────────────────────────────────────────
 
@@ -161,25 +162,107 @@ function SellerPanel() {
 // ─── Seller Profile Page ──────────────────────────────────────────────────────
 
 export default function SellerProfile() {
-  const { profile, openPanel } = useSeller();
-  const { user } = useAuth();
+  const { profile, openPanel, loading: profileLoading } = useSeller();
+  const { user, isLoggedIn } = useAuth();
   const [, setLocation] = useLocation();
   const [sellerProducts, setSellerProducts] = useState<any[]>([]);
+  const [loadingProducts, setLoadingProducts] = useState(true);
 
-  // Load seller's added products from localStorage
+  // Redirect to login if not authenticated
   useEffect(() => {
-    try {
-      const stored = JSON.parse(localStorage.getItem("seller_products_v1") ?? "[]");
-      setSellerProducts(stored);
-    } catch {}
-  }, []);
+    if (!isLoggedIn) {
+      setLocation("/login");
+    }
+  }, [isLoggedIn, setLocation]);
 
-  // Guard: redirect if no profile
+  // Load seller's products from backend
   useEffect(() => {
-    if (!profile) setLocation("/seller/onboarding");
-  }, [profile, setLocation]);
+    const fetchProducts = async () => {
+      if (!profile?.id) return;
+      
+      try {
+        setLoadingProducts(true);
+        const response = await sellersApi.getProducts(profile.id);
+        setSellerProducts(response.products || []);
+      } catch (err) {
+        console.error("Failed to fetch seller products:", err);
+        setSellerProducts([]);
+      } finally {
+        setLoadingProducts(false);
+      }
+    };
 
-  if (!profile) return null;
+    fetchProducts();
+  }, [profile?.id]);
+
+  // No automatic redirect on page reload - only show onboarding button if no profile
+
+  if (profileLoading) {
+    return (
+      <div style={{ minHeight: "100vh", background: "#fdf8f2" }}>
+        <Navbar />
+        <div style={{ maxWidth: 900, margin: "0 auto", padding: "60px 24px", textAlign: "center" }}>
+          <div style={{ fontSize: 48, marginBottom: 16 }}>🧶</div>
+          <p style={{ fontFamily: "'Poppins',sans-serif", fontSize: 14, color: "#8a6a55" }}>
+            Loading profile...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show onboarding prompt if no profile
+  if (!profile) {
+    return (
+      <div style={{ minHeight: "100vh", background: "#fdf8f2" }}>
+        <Navbar />
+        <div style={{ maxWidth: 600, margin: "0 auto", padding: "80px 24px", textAlign: "center" }}>
+          <div style={{
+            background: "#fff", borderRadius: 24, padding: "48px 32px",
+            boxShadow: "0 8px 32px rgba(196,164,132,0.12)",
+            border: "1px solid rgba(196,164,132,0.1)",
+          }}>
+            <div style={{ fontSize: 64, marginBottom: 24 }}>🛍️</div>
+            <h1 style={{ 
+              fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 28,
+              color: "#3d2b1f", margin: "0 0 16px" 
+            }}>
+              Become a Seller
+            </h1>
+            <p style={{ 
+              fontFamily: "'Poppins',sans-serif", fontSize: 16, color: "#8a6a55",
+              margin: "0 0 32px", lineHeight: 1.6 
+            }}>
+              Start your handmade business and reach customers who love unique, crafted items. 
+              Set up your seller profile to begin listing your products.
+            </p>
+            <button
+              onClick={() => setLocation("/seller/onboarding")}
+              style={{
+                fontFamily: "'Poppins',sans-serif", fontWeight: 700, fontSize: 16,
+                color: "#fff",
+                background: "linear-gradient(135deg, #f4a7b9 0%, #c4a484 100%)",
+                border: "none", borderRadius: 50, padding: "16px 40px", cursor: "pointer",
+                boxShadow: "0 8px 24px rgba(244,167,185,0.35)",
+                transition: "all 220ms ease",
+              }}
+              onMouseEnter={(e) => { 
+                e.currentTarget.style.transform = "scale(1.05)"; 
+                e.currentTarget.style.boxShadow = "0 12px 32px rgba(244,167,185,0.5)"; 
+              }}
+              onMouseLeave={(e) => { 
+                e.currentTarget.style.transform = "scale(1)"; 
+                e.currentTarget.style.boxShadow = "0 8px 24px rgba(244,167,185,0.35)"; 
+              }}
+            >
+              Start Selling ✦
+            </button>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div style={{ minHeight: "100vh", background: "#fdf8f2" }}>
@@ -256,7 +339,14 @@ export default function SellerProfile() {
 
       {/* ── Products area ── */}
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "48px 24px 80px" }}>
-        {sellerProducts.length === 0 ? (
+        {loadingProducts ? (
+          <div style={{ textAlign: "center", padding: "60px 24px" }}>
+            <div style={{ fontSize: 48, marginBottom: 16 }}>🧶</div>
+            <p style={{ fontFamily: "'Poppins',sans-serif", fontSize: 14, color: "#8a6a55" }}>
+              Loading products...
+            </p>
+          </div>
+        ) : sellerProducts.length === 0 ? (
           /* Empty state */
           <div style={{
             textAlign: "center", padding: "80px 24px",
@@ -315,14 +405,14 @@ export default function SellerProfile() {
                   boxShadow: "0 4px 16px rgba(196,164,132,0.10)",
                   border: "1px solid rgba(196,164,132,0.1)",
                 }}>
-                  <img src={p.image} alt={p.name}
+                  <img src={p.images?.[0] || p.image} alt={p.name}
                     style={{ width: "100%", aspectRatio: "4/3", objectFit: "cover", display: "block" }} />
                   <div style={{ padding: "12px 14px" }}>
                     <p style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 700, fontSize: 13, color: "#2A2A2A", margin: "0 0 4px" }}>
                       {p.name}
                     </p>
                     <p style={{ fontFamily: "'Poppins',sans-serif", fontSize: 12, color: "#C45E73", fontWeight: 700, margin: 0 }}>
-                      ${p.price.toFixed(2)}
+                      ${Number(p.current_price || p.price).toFixed(2)}
                     </p>
                   </div>
                 </div>

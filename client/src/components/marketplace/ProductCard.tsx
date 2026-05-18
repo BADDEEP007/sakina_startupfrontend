@@ -20,7 +20,7 @@ function Stars({ rating }: { rating: number }) {
         fontFamily: "'Poppins',sans-serif", fontSize: 11, fontWeight: 500,
         color: "#a08070", marginLeft: 3,
       }}>
-        {rating.toFixed(1)}
+        {Number(rating).toFixed(1)}
       </span>
     </div>
   );

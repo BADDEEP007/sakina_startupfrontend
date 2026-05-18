@@ -1,8 +1,7 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback,useEffect } from "react";
 import { useLocation } from "wouter";
 import { useAuth } from "@/contexts/AuthContext";
 import { useSeller, type SellerProfile } from "@/contexts/SellerContext";
-import { nanoid } from "nanoid";
 
 // ─── Shared style helpers ─────────────────────────────────────────────────────
 
@@ -174,8 +173,43 @@ export default function SellerOnboarding() {
   const [animating, setAnimating] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const [, setLocation] = useLocation();
-  const { user, markAsSeller } = useAuth();
-  const { setProfile, openPanel } = useSeller();
+  const { isLoggedIn, markAsSeller } = useAuth();
+  const { profile, setProfile, openPanel, createSeller, loading: profileLoading } = useSeller();
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!isLoggedIn) {
+      setLocation("/login");
+    }
+  }, [isLoggedIn, setLocation]);
+
+  // Redirect if user is already a seller
+  useEffect(() => {
+    if (!profileLoading && profile) {
+      setLocation("/seller/profile");
+    }
+  }, [profile, profileLoading, setLocation]);
+
+  // Show loading while checking seller status
+  if (profileLoading) {
+    return (
+      <div style={{
+        minHeight: "100vh", background: "linear-gradient(160deg, #fdf4e7 0%, #fce8f0 50%, #ede8ff 100%)",
+        display: "flex", alignItems: "center", justifyContent: "center", padding: "24px",
+      }}>
+        <div style={{
+          background: "#fff", borderRadius: 28, padding: "40px",
+          boxShadow: "0 24px 64px rgba(196,164,132,0.18)",
+          textAlign: "center",
+        }}>
+          <div style={{ fontSize: 48, marginBottom: 16 }}>🧶</div>
+          <p style={{ fontFamily: "'Poppins',sans-serif", fontSize: 14, color: "#8a6a55" }}>
+            Checking seller status...
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   const set = <K extends keyof FormData>(key: K, val: FormData[K]) =>
     setData((d) => ({ ...d, [key]: val }));
@@ -227,24 +261,22 @@ export default function SellerOnboarding() {
 
   const handleSubmit = async () => {
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 800)); // simulate API
-    const profile: SellerProfile = {
-      id: nanoid(),
-      fullName: data.fullName,
-      displayName: data.displayName,
-      avatar: data.avatar,
-      address: data.address,
-      phone: data.phone,
-      email: data.email,
-      workTypes: data.workTypes,
-      otherWork: data.otherWork,
-      createdAt: new Date().toISOString(),
-    };
-    setProfile(profile);
-    markAsSeller();
-    setLoading(false);
-    setLocation("/seller/profile");
-    setTimeout(openPanel, 400);
+    try {
+      await createSeller({
+        shop_name: data.displayName,
+        shop_description: data.otherWork || data.workTypes.join(", "),
+        shop_logo: data.avatar || undefined,
+      });
+      
+      markAsSeller();
+      setLocation("/seller/profile");
+      setTimeout(openPanel, 400);
+    } catch (err) {
+      console.error("Failed to create seller:", err);
+      alert("Failed to create seller profile. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   // ── Image upload ────────────────────────────────────────────────────────────

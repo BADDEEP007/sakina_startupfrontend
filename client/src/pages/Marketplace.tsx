@@ -1,10 +1,10 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/marketplace/ProductCard";
 import FilterPanel, { Filters, DEFAULT_FILTERS } from "@/components/marketplace/FilterPanel";
 import CategorySlider from "@/components/marketplace/CategorySlider";
-import { PRODUCTS } from "@/data/products";
+import { productsApi } from "@/lib/api";
 import { useIsMobile } from "@/hooks/useMobile";
 
 // ─── Search bar ───────────────────────────────────────────────────────────────
@@ -105,6 +105,34 @@ export default function Marketplace() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [filters, setFilters] = useState<Filters>(DEFAULT_FILTERS);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [products, setProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch products from backend
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const response = await productsApi.getAll({
+          category: activeCategory !== "All" ? activeCategory : undefined,
+          search: search.trim() || undefined,
+          min_price: filters.minPrice > 0 ? filters.minPrice : undefined,
+          max_price: filters.maxPrice < 200 ? filters.maxPrice : undefined,
+        });
+        setProducts(response.products || []);
+      } catch (err) {
+        console.error("Failed to fetch products:", err);
+        setError("Failed to load products. Please try again.");
+        setProducts([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, [activeCategory, search, filters.minPrice, filters.maxPrice]);
 
   const handleCategorySelect = useCallback((cat: string) => {
     setActiveCategory(cat);
@@ -120,58 +148,44 @@ export default function Marketplace() {
     setSearch("");
   }, []);
 
-  // ── Filtering logic ──────────────────────────────────────────────────────
+  // ── Client-side filtering logic (for filters not handled by backend) ──────
   const filtered = useMemo(() => {
-    let list = [...PRODUCTS];
+    let list = [...products];
 
-    // Search
-    if (search.trim()) {
-      const q = search.toLowerCase();
-      list = list.filter(
-        (p) =>
-          p.name.toLowerCase().includes(q) ||
-          p.seller.toLowerCase().includes(q) ||
-          p.category.toLowerCase().includes(q)
-      );
-    }
-
-    // Category
+    // Category (already filtered by backend, but keep for consistency)
     if (filters.categories.length > 0) {
       list = list.filter((p) => filters.categories.includes(p.category));
     }
 
-    // Art type
+    // Art type (frontend-only filter)
     if (filters.artTypes.length > 0) {
-      list = list.filter((p) => filters.artTypes.includes(p.artType));
+      list = list.filter((p) => filters.artTypes.includes(p.art_type || p.artType));
     }
 
-    // Size
+    // Size (frontend-only filter)
     if (filters.sizes.length > 0) {
       list = list.filter((p) => filters.sizes.includes(p.size));
     }
 
-    // Price
-    list = list.filter((p) => p.price >= filters.minPrice && p.price <= filters.maxPrice);
-
-    // Rating
+    // Rating (frontend-only filter)
     if (filters.minRating > 0) {
-      list = list.filter((p) => p.rating >= filters.minRating);
+      list = list.filter((p) => (p.rating || 0) >= filters.minRating);
     }
 
     // Availability
-    if (filters.inStockOnly) list = list.filter((p) => p.inStock);
+    if (filters.inStockOnly) list = list.filter((p) => (p.stock || 0) > 0);
     if (filters.customOrderOnly) list = list.filter((p) => p.size === "Custom");
 
     // Sort
     switch (filters.sortBy) {
-      case "price-asc":  list.sort((a, b) => a.price - b.price); break;
-      case "price-desc": list.sort((a, b) => b.price - a.price); break;
-      case "newest":     list.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0)); break;
-      case "popular":    list.sort((a, b) => b.reviewCount - a.reviewCount); break;
+      case "price-asc":  list.sort((a, b) => (a.current_price || a.price) - (b.current_price || b.price)); break;
+      case "price-desc": list.sort((a, b) => (b.current_price || b.price) - (a.current_price || a.price)); break;
+      case "newest":     list.sort((a, b) => new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime()); break;
+      case "popular":    list.sort((a, b) => (b.review_count || 0) - (a.review_count || 0)); break;
     }
 
     return list;
-  }, [search, filters]);
+  }, [products, filters]);
 
   // Active filter count for badge
   const activeFilterCount = [
@@ -305,7 +319,36 @@ export default function Marketplace() {
             )}
 
             {/* Grid */}
-            {filtered.length > 0 ? (
+            {loading ? (
+              <div style={{ textAlign: "center", padding: "80px 24px" }}>
+                <div style={{ fontSize: 48, marginBottom: 16 }}>🧶</div>
+                <p style={{ fontFamily: "'Poppins',sans-serif", fontSize: 14, color: "#8a6a55" }}>
+                  Loading products...
+                </p>
+              </div>
+            ) : error ? (
+              <div style={{
+                textAlign: "center", padding: "80px 24px",
+                background: "#fff", borderRadius: 20,
+                border: "1px solid rgba(196,164,132,0.12)",
+              }}>
+                <div style={{ fontSize: 48, marginBottom: 16 }}>⚠️</div>
+                <h3 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 700, fontSize: 18,
+                  color: "#3d2b1f", margin: "0 0 8px" }}>Error loading products</h3>
+                <p style={{ fontFamily: "'Poppins',sans-serif", fontSize: 14, color: "#8a6a55", margin: "0 0 20px" }}>
+                  {error}
+                </p>
+                <button onClick={() => window.location.reload()} style={{
+                  fontFamily: "'Poppins',sans-serif", fontWeight: 700, fontSize: 13,
+                  color: "#fff",
+                  background: "linear-gradient(135deg, #f4a7b9 0%, #c4a484 100%)",
+                  border: "none", borderRadius: 50, padding: "11px 28px", cursor: "pointer",
+                  boxShadow: "0 4px 14px rgba(244,167,185,0.3)",
+                }}>
+                  Retry
+                </button>
+              </div>
+            ) : filtered.length > 0 ? (
               <div style={{
                 display: "grid",
                 gridTemplateColumns: isMobile

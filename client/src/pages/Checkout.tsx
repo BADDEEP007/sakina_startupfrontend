@@ -1,6 +1,9 @@
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import Navbar from "@/components/Navbar";
 import { useCart } from "@/contexts/CartContext";
+import { useOrders } from "@/contexts/OrdersContext";
+import { addressesApi } from "@/lib/api";
 import { useIsMobile } from "@/hooks/useMobile";
 
 const S = {
@@ -32,16 +35,89 @@ const S = {
 };
 
 export default function Checkout() {
-  const { items, subtotal, totalItems } = useCart();
+  const { items, subtotal, totalItems, clearCart } = useCart();
+  const { placeOrder } = useOrders();
   const [, setLocation] = useLocation();
   const isMobile = useIsMobile();
+
+  const [addresses, setAddresses] = useState<any[]>([]);
+  const [selectedAddress, setSelectedAddress] = useState<string>("");
+  const [paymentMethod, setPaymentMethod] = useState<string>("cod");
+  const [loading, setLoading] = useState(true);
+  const [placing, setPlacing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const shipping = subtotal >= 50 ? 0 : 5.99;
   const total = subtotal + shipping;
 
+  // Fetch addresses
+  useEffect(() => {
+    const fetchAddresses = async () => {
+      try {
+        setLoading(true);
+        const response = await addressesApi.getAll();
+        const addressList = response.addresses || [];
+        setAddresses(addressList);
+        
+        // Select default address or first address
+        const defaultAddr = addressList.find((a: any) => a.is_default);
+        if (defaultAddr) {
+          setSelectedAddress(defaultAddr.id);
+        } else if (addressList.length > 0) {
+          setSelectedAddress(addressList[0].id);
+        }
+      } catch (err) {
+        console.error("Failed to fetch addresses:", err);
+        setError("Failed to load addresses");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAddresses();
+  }, []);
+
+  const handlePlaceOrder = async () => {
+    if (!selectedAddress) {
+      setError("Please select a delivery address");
+      return;
+    }
+
+    try {
+      setPlacing(true);
+      setError(null);
+      
+      await placeOrder(selectedAddress, paymentMethod);
+      await clearCart();
+      
+      setLocation("/order-success");
+    } catch (err) {
+      console.error("Failed to place order:", err);
+      setError("Failed to place order. Please try again.");
+    } finally {
+      setPlacing(false);
+    }
+  };
+
   if (items.length === 0) {
     setLocation("/cart");
     return null;
+  }
+
+  if (loading) {
+    return (
+      <div style={S.page}>
+        <Navbar />
+        <div style={S.wrap(isMobile)}>
+          <div style={{ textAlign: "center", padding: "60px 24px" }}>
+            <div style={{ fontSize: 48, marginBottom: 16 }}>🧶</div>
+            <p style={{ fontFamily: "'Inter','Poppins',sans-serif", fontSize: 14, color: "#8a6a55" }}>
+              Loading checkout...
+            </p>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -94,26 +170,115 @@ export default function Checkout() {
           </div>
         </div>
 
-        {/* ── Delivery address placeholder ── */}
+        {/* ── Delivery address ── */}
         <div style={S.card}>
           <p style={{ fontFamily: "'Playfair Display',Georgia,serif", fontWeight: 700, fontSize: 16, color: "#2A2A2A", margin: "0 0 12px" }}>
             Delivery Address
           </p>
-          <div style={{ padding: "12px 14px", background: "#FAF7F4", borderRadius: 12, border: "1px dashed rgba(196,164,132,0.4)" }}>
-            <p style={{ fontFamily: "'Inter','Poppins',sans-serif", fontSize: 13, color: "#4A4A4A", margin: 0 }}>
-              123 Handmade Lane, Craft City, CA 90210
-            </p>
+          {addresses.length === 0 ? (
+            <div style={{ padding: "12px 14px", background: "#FAF7F4", borderRadius: 12, border: "1px dashed rgba(196,164,132,0.4)" }}>
+              <p style={{ fontFamily: "'Inter','Poppins',sans-serif", fontSize: 13, color: "#4A4A4A", margin: "0 0 8px" }}>
+                No addresses found. Please add an address.
+              </p>
+              <button
+                onClick={() => setLocation("/profile")}
+                style={{
+                  fontFamily: "'Inter','Poppins',sans-serif", fontWeight: 600, fontSize: 12,
+                  color: "#C45E73", background: "rgba(244,167,185,0.1)",
+                  border: "1px solid rgba(244,167,185,0.3)", borderRadius: 50,
+                  padding: "7px 16px", cursor: "pointer",
+                }}
+              >
+                Add Address
+              </button>
+            </div>
+          ) : (
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {addresses.map((addr: any) => (
+                <label key={addr.id} style={{
+                  display: "flex", alignItems: "flex-start", gap: 10,
+                  padding: "12px 14px", background: selectedAddress === addr.id ? "rgba(244,167,185,0.1)" : "#FAF7F4",
+                  borderRadius: 12, border: `1.5px solid ${selectedAddress === addr.id ? "#f4a7b9" : "rgba(196,164,132,0.2)"}`,
+                  cursor: "pointer", transition: "all 200ms ease",
+                }}>
+                  <input
+                    type="radio"
+                    name="address"
+                    value={addr.id}
+                    checked={selectedAddress === addr.id}
+                    onChange={(e) => setSelectedAddress(e.target.value)}
+                    style={{ marginTop: 2 }}
+                  />
+                  <div style={{ flex: 1 }}>
+                    <p style={{ fontFamily: "'Inter','Poppins',sans-serif", fontWeight: 600, fontSize: 13, color: "#2A2A2A", margin: "0 0 4px" }}>
+                      {addr.full_name} {addr.is_default && <span style={{ color: "#C45E73", fontSize: 11 }}>(Default)</span>}
+                    </p>
+                    <p style={{ fontFamily: "'Inter','Poppins',sans-serif", fontSize: 12, color: "#4A4A4A", margin: 0 }}>
+                      {addr.address_line1}{addr.address_line2 && `, ${addr.address_line2}`}<br />
+                      {addr.city}, {addr.state} {addr.postal_code}<br />
+                      {addr.phone}
+                    </p>
+                  </div>
+                </label>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* ── Payment method ── */}
+        <div style={S.card}>
+          <p style={{ fontFamily: "'Playfair Display',Georgia,serif", fontWeight: 700, fontSize: 16, color: "#2A2A2A", margin: "0 0 12px" }}>
+            Payment Method
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            {[
+              { value: "cod", label: "Cash on Delivery" },
+              { value: "card", label: "Credit/Debit Card" },
+              { value: "upi", label: "UPI" },
+              { value: "wallet", label: "Wallet" },
+              { value: "netbanking", label: "Net Banking" },
+            ].map((method) => (
+              <label key={method.value} style={{
+                display: "flex", alignItems: "center", gap: 10,
+                padding: "12px 14px", background: paymentMethod === method.value ? "rgba(244,167,185,0.1)" : "#FAF7F4",
+                borderRadius: 12, border: `1.5px solid ${paymentMethod === method.value ? "#f4a7b9" : "rgba(196,164,132,0.2)"}`,
+                cursor: "pointer", transition: "all 200ms ease",
+              }}>
+                <input
+                  type="radio"
+                  name="payment"
+                  value={method.value}
+                  checked={paymentMethod === method.value}
+                  onChange={(e) => setPaymentMethod(e.target.value)}
+                />
+                <span style={{ fontFamily: "'Inter','Poppins',sans-serif", fontWeight: 500, fontSize: 13, color: "#2A2A2A" }}>
+                  {method.label}
+                </span>
+              </label>
+            ))}
           </div>
         </div>
+
+        {/* ── Error message ── */}
+        {error && (
+          <div style={{
+            padding: "12px 16px", background: "rgba(244,167,185,0.15)",
+            border: "1px solid rgba(244,167,185,0.4)", borderRadius: 12,
+            fontFamily: "'Inter','Poppins',sans-serif", fontSize: 13, color: "#C45E73",
+          }}>
+            {error}
+          </div>
+        )}
 
         {/* ── CTAs ── */}
         <button
           style={S.btn}
-          onClick={() => setLocation("/payment")}
-          onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.02)"; }}
+          onClick={handlePlaceOrder}
+          disabled={placing || !selectedAddress}
+          onMouseEnter={(e) => { if (!placing && selectedAddress) e.currentTarget.style.transform = "scale(1.02)"; }}
           onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
         >
-          Proceed to Payment →
+          {placing ? "Placing Order..." : "Place Order →"}
         </button>
         <button
           style={S.secondaryBtn}

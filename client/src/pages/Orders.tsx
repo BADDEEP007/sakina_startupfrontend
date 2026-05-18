@@ -159,7 +159,7 @@ function OrderCard({ order }: { order: Order }) {
 // ─── Orders page ──────────────────────────────────────────────────────────────
 
 export default function Orders() {
-  const { orders } = useOrders();
+  const { orders, loading, error } = useOrders();
   const [, setLocation] = useLocation();
   const [search, setSearch] = useState("");
   const isMobile = useIsMobile();
@@ -168,6 +168,45 @@ export default function Orders() {
   const filtered = orders.filter((o) =>
     o.orderNumber.toLowerCase().includes(search.toLowerCase())
   );
+
+  if (loading) {
+    return (
+      <div style={{ minHeight: "100vh", background: "#FAF7F4" }}>
+        <Navbar />
+        <div style={{ maxWidth: 680, margin: "0 auto", padding: isMobile ? "20px 16px 100px" : "36px 24px 80px", textAlign: "center" }}>
+          <div style={{ fontSize: 48, marginBottom: 16 }}>🧶</div>
+          <p style={{ fontFamily: "'Inter','Poppins',sans-serif", fontSize: 14, color: "#8a6a55" }}>
+            Loading orders...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div style={{ minHeight: "100vh", background: "#FAF7F4" }}>
+        <Navbar />
+        <div style={{ maxWidth: 680, margin: "0 auto", padding: isMobile ? "20px 16px 100px" : "36px 24px 80px", textAlign: "center" }}>
+          <div style={{ fontSize: 48, marginBottom: 16 }}>⚠️</div>
+          <h2 style={{ fontFamily: "'Playfair Display',Georgia,serif", fontWeight: 700, fontSize: 20, color: "#2A2A2A", margin: "0 0 8px" }}>
+            Error loading orders
+          </h2>
+          <p style={{ fontFamily: "'Inter','Poppins',sans-serif", fontSize: 13, color: "#4A4A4A", margin: "0 0 20px" }}>
+            {error}
+          </p>
+          <button onClick={() => window.location.reload()} style={{
+            padding: "12px 28px", background: "#C45E73", color: "#fff",
+            fontFamily: "'Inter','Poppins',sans-serif", fontWeight: 700, fontSize: 14,
+            borderRadius: 50, border: "none", cursor: "pointer",
+            boxShadow: "0 4px 14px rgba(196,94,115,0.3)",
+          }}>
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ minHeight: "100vh", background: "#FAF7F4" }}>

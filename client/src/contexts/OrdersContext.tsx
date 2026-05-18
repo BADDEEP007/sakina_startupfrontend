@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useReducer } from "react";
+import { ordersApi } from "@/lib/api";
 import type { CartItem } from "./CartContext";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -16,27 +17,24 @@ export interface Order {
 
 interface OrdersState {
   orders: Order[];
+  loading: boolean;
+  error: string | null;
 }
 
 type OrdersAction =
+  | { type: "SET_LOADING"; loading: boolean }
+  | { type: "SET_ERROR"; error: string | null }
+  | { type: "SET_ORDERS"; orders: Order[] }
   | { type: "PLACE_ORDER"; order: Order }
   | { type: "HYDRATE"; orders: Order[] };
 
-const LS_KEY = "handmade_orders_v1";
-
-function load(): Order[] {
-  try { const r = localStorage.getItem(LS_KEY); return r ? JSON.parse(r) : []; }
-  catch { return []; }
-}
-function save(orders: Order[]) {
-  try { localStorage.setItem(LS_KEY, JSON.stringify(orders)); }
-  catch {}
-}
-
 function reducer(state: OrdersState, action: OrdersAction): OrdersState {
   switch (action.type) {
-    case "HYDRATE":      return { orders: action.orders };
-    case "PLACE_ORDER":  return { orders: [action.order, ...state.orders] };
+    case "SET_LOADING": return { ...state, loading: action.loading };
+    case "SET_ERROR":   return { ...state, error: action.error };
+    case "SET_ORDERS":  return { ...state, orders: action.orders, loading: false, error: null };
+    case "HYDRATE":     return { ...state, orders: action.orders };
+    case "PLACE_ORDER": return { ...state, orders: [action.order, ...state.orders] };
     default: return state;
   }
 }
@@ -45,40 +43,109 @@ function reducer(state: OrdersState, action: OrdersAction): OrdersState {
 
 interface OrdersContextValue {
   orders: Order[];
-  placeOrder: (items: CartItem[], total: number) => Order;
+  loading: boolean;
+  error: string | null;
+  placeOrder: (addressId: string, paymentMethod: string, notes?: string) => Promise<Order>;
+  refreshOrders: () => Promise<void>;
 }
 
 const OrdersContext = createContext<OrdersContextValue | null>(null);
 
 export function OrdersProvider({ children }: { children: React.ReactNode }) {
-  const [state, dispatch] = useReducer(reducer, { orders: [] });
+  const [state, dispatch] = useReducer(reducer, { orders: [], loading: false, error: null });
 
-  useEffect(() => { dispatch({ type: "HYDRATE", orders: load() }); }, []);
-  useEffect(() => { save(state.orders); }, [state.orders]);
+  // Fetch orders from backend
+  const refreshOrders = useCallback(async () => {
+    const token = localStorage.getItem('handmade_token_v1');
+    if (!token) {
+      dispatch({ type: "SET_ORDERS", orders: [] });
+      return;
+    }
 
-  const placeOrder = useCallback((items: CartItem[], total: number): Order => {
-    const now = new Date();
-    const delivery = new Date(now);
-    delivery.setDate(delivery.getDate() + 5);
+    try {
+      dispatch({ type: "SET_LOADING", loading: true });
+      dispatch({ type: "SET_ERROR", error: null });
+      const response = await ordersApi.getAll();
+      
+      // Transform backend orders to match frontend Order interface
+      const transformedOrders: Order[] = (response.orders || []).map((order: any) => ({
+        orderNumber: order.order_number || order.id,
+        date: order.created_at,
+        total: parseFloat(order.total_amount || 0),
+        items: order.items || [],
+        status: mapBackendStatus(order.status),
+        expectedDelivery: order.expected_delivery || calculateDeliveryDate(order.created_at),
+      }));
+      
+      dispatch({ type: "SET_ORDERS", orders: transformedOrders });
+    } catch (err) {
+      console.error("Failed to fetch orders:", err);
+      dispatch({ type: "SET_ERROR", error: "Failed to load orders" });
+      dispatch({ type: "SET_ORDERS", orders: [] });
+    }
+  }, []);
 
-    const order: Order = {
-      orderNumber: `HWL-${Date.now().toString(36).toUpperCase()}`,
-      date: now.toISOString(),
-      total,
-      items,
-      status: "Packed",
-      expectedDelivery: delivery.toISOString(),
-    };
-    dispatch({ type: "PLACE_ORDER", order });
-    return order;
+  // Load orders on mount
+  useEffect(() => {
+    refreshOrders();
+  }, [refreshOrders]);
+
+  const placeOrder = useCallback(async (addressId: string, paymentMethod: string, notes?: string): Promise<Order> => {
+    try {
+      const response = await ordersApi.create({
+        address_id: addressId,
+        payment_method: paymentMethod,
+        notes,
+      });
+
+      const order: Order = {
+        orderNumber: response.order.order_number || response.order.id,
+        date: response.order.created_at,
+        total: parseFloat(response.order.total_amount || 0),
+        items: response.order.items || [],
+        status: mapBackendStatus(response.order.status),
+        expectedDelivery: response.order.expected_delivery || calculateDeliveryDate(response.order.created_at),
+      };
+
+      dispatch({ type: "PLACE_ORDER", order });
+      return order;
+    } catch (err) {
+      console.error("Failed to place order:", err);
+      throw err;
+    }
   }, []);
 
   const value = useMemo<OrdersContextValue>(
-    () => ({ orders: state.orders, placeOrder }),
-    [state.orders, placeOrder]
+    () => ({ 
+      orders: state.orders, 
+      loading: state.loading,
+      error: state.error,
+      placeOrder,
+      refreshOrders,
+    }),
+    [state.orders, state.loading, state.error, placeOrder, refreshOrders]
   );
 
   return <OrdersContext.Provider value={value}>{children}</OrdersContext.Provider>;
+}
+
+// Helper function to map backend status to frontend status
+function mapBackendStatus(backendStatus: string): OrderStatus {
+  const statusMap: Record<string, OrderStatus> = {
+    'pending': 'Ordered',
+    'processing': 'Packed',
+    'shipped': 'Shipped',
+    'delivered': 'Delivered',
+    'cancelled': 'Ordered', // Fallback
+  };
+  return statusMap[backendStatus] || 'Ordered';
+}
+
+// Helper function to calculate delivery date (5 days from order date)
+function calculateDeliveryDate(orderDate: string): string {
+  const date = new Date(orderDate);
+  date.setDate(date.getDate() + 5);
+  return date.toISOString();
 }
 
 export function useOrders() {

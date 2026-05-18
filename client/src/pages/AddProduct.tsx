@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { useLocation } from "wouter";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { productsApi } from "@/lib/api";
 import { CATEGORIES } from "@/data/products";
 
 // ─── Shared input style ───────────────────────────────────────────────────────
@@ -182,44 +183,26 @@ export default function AddProduct() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
+    
     setSubmitting(true);
-    await new Promise((r) => setTimeout(r, 900));
-
-    // Persist new product to localStorage so SellerProfile can display it
-    const newProduct = {
-      id: `seller-${Date.now()}`,
-      name: name.value.trim(),
-      category,
-      price: parseFloat(price.value),
-      description: description.value.trim(),
-      image: images[0] ?? "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&q=80",
-      gallery: images.length > 0 ? images : ["https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&q=80"],
-      seller: "My Shop",
-      sellerRating: 5.0,
-      sellerSales: 0,
-      rating: 0,
-      reviewCount: 0,
-      artType: "Crochet" as const,
-      size: "Medium" as const,
-      availableSizes: [],
-      availableColors: [],
-      inStock: true,
-      isNew: true,
-      isBestSeller: false,
-      materials: "",
-      careInstructions: "",
-      deliveryInfo: "Ships in 3–5 days",
-      reviews: [],
-    };
-
     try {
-      const existing = JSON.parse(localStorage.getItem("seller_products_v1") ?? "[]");
-      localStorage.setItem("seller_products_v1", JSON.stringify([newProduct, ...existing]));
-    } catch {}
+      await productsApi.create({
+        name: name.value.trim(),
+        description: description.value.trim(),
+        category,
+        original_price: parseFloat(price.value),
+        current_price: parseFloat(price.value),
+        stock: 100, // Default stock
+        images: images.length > 0 ? images : undefined,
+      });
 
-    setSubmitting(false);
-    setSubmitted(true);
-    setTimeout(() => setLocation("/seller/profile"), 1600);
+      setSubmitted(true);
+      setTimeout(() => setLocation("/seller/profile"), 1600);
+    } catch (err) {
+      console.error("Failed to create product:", err);
+      alert("Failed to add product. Please try again.");
+      setSubmitting(false);
+    }
   };
 
   // ── Success state ──────────────────────────────────────────────────────────

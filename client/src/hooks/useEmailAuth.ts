@@ -2,7 +2,9 @@ import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 
-const API_BASE = import.meta.env.VITE_API_URL ?? "";
+const API_BASE = import.meta.env.PROD 
+  ? (import.meta.env.VITE_AUTH_API_URL || 'https://your-auth-api-url.com')
+  : ''; // Empty string uses Vite proxy
 
 interface BackendUser {
   id: string;
