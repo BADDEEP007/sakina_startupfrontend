@@ -26,7 +26,7 @@ import SellerOnboarding from "./pages/SellerOnboarding";
 import SellerProfile from "./pages/SellerProfile";
 import AddProduct from "./pages/AddProduct";
 import AboutPage from "./pages/AboutPage";
-
+import "./pages/contact.css"
 import ContactPage from "./pages/ContactPage";
 
 function Router() {
