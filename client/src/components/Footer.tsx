@@ -179,7 +179,7 @@ export default function Footer() {
             </div>
             <div>
               <p style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 16,
-                color: "#f5e6cc", margin: 0, lineHeight: 1.1 }}>Handmade</p>
+                color: "#f5e6cc", margin: 0, lineHeight: 1.1 }}>Feedle</p>
               <p style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 400, fontSize: 10.5,
                 color: "rgba(245,230,204,0.5)", margin: 0, letterSpacing: "0.08em" }}>with Love</p>
             </div>

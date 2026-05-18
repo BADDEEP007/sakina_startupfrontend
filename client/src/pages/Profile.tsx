@@ -330,7 +330,7 @@ export default function Profile() {
   const handleShare = async () => {
     const url = window.location.origin;
     if (navigator.share) {
-      await navigator.share({ title: "Handmade with Love", url }).catch(() => {});
+      await navigator.share({ title: "Feedle with Love", url }).catch(() => {});
     } else {
       await navigator.clipboard.writeText(url);
       alert("Link copied to clipboard!");
@@ -571,7 +571,7 @@ export default function Profile() {
           ) : (
             <div>
               <p style={{ fontFamily: font, fontSize: 13, color: C.mid, margin: "0 0 14px", lineHeight: 1.6 }}>
-                Turn your craft into a business. List your handmade pieces and reach buyers who love unique, artisan work.
+                Turn your craft into a business. List your Feedle pieces and reach buyers who love unique, artisan work.
               </p>
               <button
                 onClick={handleBecomeSeller}
@@ -621,7 +621,7 @@ export default function Profile() {
               </div>
               <div>
                 <p style={{ fontFamily: font, fontWeight: 600, fontSize: 14, color: C.dark, margin: 0 }}>Share with a Friend</p>
-                <p style={{ fontFamily: font, fontSize: 12, color: C.muted, margin: "2px 0 0" }}>Invite someone to discover handmade</p>
+                <p style={{ fontFamily: font, fontSize: 12, color: C.muted, margin: "2px 0 0" }}>Invite someone to discover Feedle</p>
               </div>
             </button>
 

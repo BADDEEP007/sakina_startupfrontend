@@ -16,7 +16,7 @@ export default function Hero() {
          mid-left   → chunky knit blanket (large circle, bleeds off edge)
          mid-right  → yarn balls (medium circle)
          bottom-right → crochet bag (circle)
-     - H1 "Handmade with Love" — Playfair, dark charcoal, centred
+     - H1 "Feedle with Love" — Playfair, dark charcoal, centred
      - Body copy — Inter, centred
      - Primary pill button: #C45E73 pink, white text, arrow
      - Secondary pill button: warm taupe fill, dark text
@@ -53,7 +53,7 @@ export default function Hero() {
             <span style={{ color: "#fff", fontSize: 14, lineHeight: 1 }}>✦</span>
           </div>
           <div style={{ lineHeight: 1 }}>
-            <p style={{ fontFamily: "'Playfair Display',Georgia,serif", fontWeight: 700, fontSize: 14, color: "#fff", margin: 0, textShadow: "0 1px 4px rgba(0,0,0,0.18)" }}>Handmade</p>
+            <p style={{ fontFamily: "'Playfair Display',Georgia,serif", fontWeight: 700, fontSize: 14, color: "#fff", margin: 0, textShadow: "0 1px 4px rgba(0,0,0,0.18)" }}>Feedle</p>
             <p style={{ fontFamily: "'Inter','Poppins',sans-serif", fontWeight: 400, fontSize: 9, color: "rgba(255,255,255,0.80)", margin: 0, letterSpacing: "0.06em" }}>with Love</p>
           </div>
         </div>
@@ -61,7 +61,7 @@ export default function Hero() {
         {/* ══════════════════════════════════════════
             BACKGROUND IMAGE TILES
             All images replaced with premium
-            handmade / crochet / thread-art content
+            Feedle / crochet / thread-art content
         ══════════════════════════════════════════ */}
 
         {/* 1. Top-right — intricate thread-art / colorful abstract piece */}
@@ -207,7 +207,7 @@ export default function Hero() {
             margin: "0 0 8px",   /* compressed mb */
             letterSpacing: "-0.01em",
           }}>
-            Handmade with Love
+            Feedle with Love
           </h1>
 
           {/* Body — compressed mb */}
@@ -290,7 +290,7 @@ export default function Hero() {
       <div className="absolute inset-0 z-0">
         <img
           src="https://d2xsxph8kpxj0f.cloudfront.net/310519663551432808/LbhAdw86gWwUBeNNLSPuNP/hero-crochet-flatlay-5ZM33zrHNzpk8HJt7TKQxi.webp"
-          alt="Handmade crochet background"
+          alt="Feedle crochet background"
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-white/70 via-pink-50/60 to-green-50/50" />
@@ -306,13 +306,13 @@ export default function Hero() {
           </div>
 
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-playfair font-bold text-foreground mb-6 leading-tight">
-            Handmade with
+            Feedle with
             <span className="block text-accent mt-2">Love</span>
           </h1>
 
           <p className="text-lg sm:text-xl text-foreground/80 font-poppins mb-8 max-w-xl leading-relaxed">
             Each piece is carefully crafted with passion and attention to detail.
-            Discover the warmth and authenticity of handmade crochet fashion.
+            Discover the warmth and authenticity of Feedle crochet fashion.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
@@ -333,7 +333,7 @@ export default function Hero() {
           </div>
 
           <div className="mt-12 flex flex-col sm:flex-row gap-8 text-sm font-poppins text-foreground/70">
-            {["100% Handmade", "Premium Materials", "Sustainable"].map((t) => (
+            {["100% Feedle", "Premium Materials", "Sustainable"].map((t) => (
               <div key={t} className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center">
                   <span className="text-accent font-bold">✓</span>

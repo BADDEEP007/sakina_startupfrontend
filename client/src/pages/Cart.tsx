@@ -21,7 +21,7 @@ function EmptyCartPage() {
         color: "#2A2A2A", margin: "0 0 10px" }}>Your cart is empty</h2>
       <p style={{ fontFamily: "'Inter','Poppins',sans-serif", fontSize: 15, color: "#4A4A4A",
         margin: "0 0 28px" }}>
-        Discover unique handmade pieces crafted with love.
+        Discover unique Feedle pieces crafted with love.
       </p>
       <button
         onClick={() => setLocation("/marketplace")}
@@ -174,7 +174,7 @@ export default function Cart() {
                   <path d="M9 12l2 2 4-4"/>
                 </svg>
                 <span style={{ fontFamily: "'Poppins',sans-serif", fontSize: 11.5, color: "#8a6a55" }}>
-                  Secure checkout · 100% handmade
+                  Secure checkout · 100% Feedle
                 </span>
               </div>
 

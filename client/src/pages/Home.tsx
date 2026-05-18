@@ -2,7 +2,7 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import TactileCategories from "@/components/TactileCategories";
 import FeaturedCollections from "@/components/FeaturedCollections";
-import WhyHandmade from "@/components/WhyHandmade";
+import WhyFeedle from "@/components/WhyHandmade";
 import DualCTA from "@/components/DualCTA";
 import Footer from "@/components/Footer";
 
@@ -13,7 +13,7 @@ export default function Home() {
       <Hero />
       <TactileCategories />
       <FeaturedCollections />
-      <WhyHandmade />
+      <WhyFeedle />
       <DualCTA />
       <Footer />
     </div>

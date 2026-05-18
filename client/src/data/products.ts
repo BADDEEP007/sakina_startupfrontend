@@ -17,7 +17,7 @@ export interface Product {
   rating: number;
   reviewCount: number;
   category: string;
-  artType: "Crochet" | "Knitted" | "Handmade fabric";
+  artType: "Crochet" | "Knitted" | "Feedle fabric";
   size: "Small" | "Medium" | "Large" | "Custom";
   availableSizes: string[];
   availableColors: { name: string; hex: string }[];
@@ -68,7 +68,7 @@ export const PRODUCTS: Product[] = [
     reviews: [
       { id: "r1", user: "Sofia M.", avatar: "https://i.pravatar.cc/40?img=47", rating: 5, date: "Mar 2025", comment: "Absolutely stunning quality. You can feel the love in every stitch. Worth every penny!" },
       { id: "r2", user: "Priya K.", avatar: "https://i.pravatar.cc/40?img=32", rating: 5, date: "Feb 2025", comment: "I ordered the cream color and it's even more beautiful in person. The seller was so responsive too." },
-      { id: "r3", user: "Lena W.", avatar: "https://i.pravatar.cc/40?img=25", rating: 4, date: "Jan 2025", comment: "Great sweater, very cozy. Took about 6 days to arrive which was expected for handmade." },
+      { id: "r3", user: "Lena W.", avatar: "https://i.pravatar.cc/40?img=25", rating: 4, date: "Jan 2025", comment: "Great sweater, very cozy. Took about 6 days to arrive which was expected for Feedle." },
     ],
   },
   {
@@ -96,7 +96,7 @@ export const PRODUCTS: Product[] = [
       "https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=800&q=80",
     ],
     isNew: true,
-    description: "A free-spirited boho bag crocheted with organic cotton yarn. Perfect for farmers markets, beach days, or just adding a handmade touch to your everyday look. The open weave design is both functional and beautiful.",
+    description: "A free-spirited boho bag crocheted with organic cotton yarn. Perfect for farmers markets, beach days, or just adding a Feedle touch to your everyday look. The open weave design is both functional and beautiful.",
     materials: "Organic cotton yarn · Wooden handles · Cotton lining",
     careInstructions: "Spot clean only · Air dry · Avoid prolonged sun exposure",
     deliveryInfo: "Ready to ship in 2–3 days · Free shipping on orders over $50",
@@ -129,7 +129,7 @@ export const PRODUCTS: Product[] = [
       "https://images.unsplash.com/photo-1510598155-b9e7e5e5e5e5?w=800&q=80",
       "https://images.unsplash.com/photo-1521369909029-2afed882baee?w=800&q=80",
     ],
-    description: "A soft, slouchy beanie knitted with the finest alpaca blend. The lavender hue is achieved with natural plant dyes, giving each hat a slightly unique shade — a mark of true handmade authenticity.",
+    description: "A soft, slouchy beanie knitted with the finest alpaca blend. The lavender hue is achieved with natural plant dyes, giving each hat a slightly unique shade — a mark of true Feedle authenticity.",
     materials: "70% Alpaca · 30% Merino wool · Natural plant dyes",
     careInstructions: "Hand wash cold · Reshape while damp · Dry flat",
     deliveryInfo: "Ships in 3–5 days · Gift wrapping available",
@@ -206,7 +206,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.5,
     reviewCount: 78,
     category: "Bags",
-    artType: "Handmade fabric",
+    artType: "Feedle fabric",
     size: "Large",
     availableSizes: ["One Size"],
     availableColors: [{ name: "Natural", hex: "#f5e6cc" }, { name: "Brown", hex: "#c4a484" }],
@@ -242,7 +242,7 @@ export const PRODUCTS: Product[] = [
     image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80",
     gallery: ["https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80"],
     isBestSeller: true,
-    description: "Set of 3 handmade crochet scrunchies. Gentle on hair, beautiful on wrist. A perfect small gift or treat for yourself.",
+    description: "Set of 3 Feedle crochet scrunchies. Gentle on hair, beautiful on wrist. A perfect small gift or treat for yourself.",
     materials: "Cotton yarn · Elastic band · Sold as set of 3",
     careInstructions: "Hand wash · Air dry",
     deliveryInfo: "Ships in 1–2 days · Perfect for gifting",
@@ -292,7 +292,7 @@ export const PRODUCTS: Product[] = [
     image: "https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=800&q=80",
     gallery: ["https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=800&q=80", "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=800&q=80"],
     isNew: true,
-    description: "A tiny but mighty crochet purse with a zip closure. Fits your essentials and adds a handmade touch to any outfit.",
+    description: "A tiny but mighty crochet purse with a zip closure. Fits your essentials and adds a Feedle touch to any outfit.",
     materials: "Cotton yarn · Metal zip · Satin lining",
     careInstructions: "Spot clean · Air dry",
     deliveryInfo: "Ships in 2–3 days",
@@ -308,7 +308,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.6,
     reviewCount: 93,
     category: "Accessories",
-    artType: "Handmade fabric",
+    artType: "Feedle fabric",
     size: "Custom",
     availableSizes: ["Standard (180cm)", "Long (220cm)"],
     availableColors: [{ name: "Cream", hex: "#f5e6cc" }, { name: "Blush", hex: "#f4a7b9" }, { name: "Lavender", hex: "#c8b6ff" }],
@@ -374,5 +374,5 @@ export const PRODUCTS: Product[] = [
 ];
 
 export const CATEGORIES = ["All", "Sweaters", "Bags", "Hats", "Blankets", "Accessories"];
-export const ART_TYPES: Product["artType"][] = ["Crochet", "Knitted", "Handmade fabric"];
+export const ART_TYPES: Product["artType"][] = ["Crochet", "Knitted", "Feedle fabric"];
 export const SIZES: Product["size"][] = ["Small", "Medium", "Large", "Custom"];

@@ -145,7 +145,7 @@ function VisualPanel({ mode }: { mode: "login" | "signup" }) {
         </div>
         <div style={{ textAlign: "left" }}>
           <p style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 15,
-            color: "#3d2b1f", margin: 0, lineHeight: 1.1 }}>Handmade</p>
+            color: "#3d2b1f", margin: 0, lineHeight: 1.1 }}>Feedle</p>
           <p style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 400, fontSize: 10,
             color: "#c4a484", margin: 0, letterSpacing: "0.08em" }}>with Love</p>
         </div>
@@ -170,7 +170,7 @@ function VisualPanel({ mode }: { mode: "login" | "signup" }) {
           color: "#8a6a55", lineHeight: 1.65, maxWidth: 280, margin: "0 auto",
         }}>
           {mode === "login"
-            ? "Log in to continue your handmade journey."
+            ? "Log in to continue your Feedle journey."
             : "Create an account and discover handcrafted pieces made with love."}
         </p>
       </div>

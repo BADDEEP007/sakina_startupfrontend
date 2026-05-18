@@ -14,7 +14,7 @@ export default function ContactLeft() {
           <div className="reach-icon"><i className="fa-regular fa-envelope"></i></div>
           <div>
             <p className="reach-label">Email us directly</p>
-            <a href="mailto:hello@handmadewithlove.com" className="reach-value">hello@handmadewithlove.com</a>
+            <a href="mailto:hello@Feedlewithlove.com" className="reach-value">hello@Feedlewithlove.com</a>
           </div>
         </div>
 
@@ -22,7 +22,7 @@ export default function ContactLeft() {
           <div className="reach-icon"><i className="fa-brands fa-instagram"></i></div>
           <div>
             <p className="reach-label">Instagram</p>
-            <a href="#" className="reach-value">@handmadewithlove</a>
+            <a href="#" className="reach-value">@Feedlewithlove</a>
           </div>
         </div>
 
@@ -30,7 +30,7 @@ export default function ContactLeft() {
           <div className="reach-icon"><i className="fa-brands fa-pinterest"></i></div>
           <div>
             <p className="reach-label">Pinterest</p>
-            <a href="#" className="reach-value">Handmade with Love</a>
+            <a href="#" className="reach-value">Feedle with Love</a>
           </div>
         </div>
 

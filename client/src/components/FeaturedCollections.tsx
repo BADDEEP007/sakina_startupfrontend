@@ -33,7 +33,7 @@ const COLLECTIONS: Collection[] = [
   {
     id: "hot-deals",
     title: "Hot Deals",
-    description: "Limited-time offers on our most-loved handmade pieces.",
+    description: "Limited-time offers on our most-loved Feedle pieces.",
     tag: "🔥 Up to 40% off",
     // Macro crochet amigurumi / patterned thread keychains
     image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800&q=90",

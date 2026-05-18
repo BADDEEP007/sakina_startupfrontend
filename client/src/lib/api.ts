@@ -14,7 +14,7 @@ const AUTH_API_BASE_URL = import.meta.env.PROD
   
 
 // Must match the key used in AuthContext.tsx
-const LS_TOKEN = "handmade_token_v1";
+const LS_TOKEN = "Feedle_token_v1";
 
 /**
  * Helper function to make authenticated requests

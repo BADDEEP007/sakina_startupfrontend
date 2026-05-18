@@ -22,7 +22,7 @@ function SearchBar({ value, onChange }: { value: string; onChange: (v: string) =
       </svg>
       <input
         type="text"
-        placeholder="Search handmade products..."
+        placeholder="Search Feedle products..."
         value={value}
         onChange={(e) => onChange(e.target.value)}
         onFocus={() => setFocused(true)}
@@ -226,7 +226,7 @@ export default function Marketplace() {
             <div style={{ height: 1, width: 28, background: "linear-gradient(90deg, transparent, #c4a484)" }} />
             <span style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 600, fontSize: 11,
               letterSpacing: "0.14em", textTransform: "uppercase", color: "#c4a484" }}>
-              Handmade Marketplace
+              Feedle Marketplace
             </span>
             <div style={{ height: 1, width: 28, background: "linear-gradient(90deg, #c4a484, transparent)" }} />
           </div>
@@ -235,7 +235,7 @@ export default function Marketplace() {
             fontSize: "clamp(26px, 4vw, 42px)", color: "#3d2b1f",
             margin: "0 0 10px", lineHeight: 1.2,
           }}>
-            Explore Handmade Creations
+            Explore Feedle Creations
           </h1>
           <p style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 400, fontSize: 15,
             color: "#8a6a55", margin: "0 0 28px" }}>

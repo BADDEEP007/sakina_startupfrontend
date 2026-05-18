@@ -1,0 +1,14 @@
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Icon only version with gradient -->
+  <defs>
+    <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF8A65;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#AED581;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4FC3F7;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Infinity-like symbol representing connection and creativity -->
+  <path d="M25 50C25 35 35 25 50 25C65 25 75 35 75 50C75 65 65 75 50 75C35 75 25 65 25 50Z" fill="url(#iconGradient)" opacity="0.8"/>
+  <path d="M75 50C75 35 65 25 50 25C35 25 25 35 25 50C25 65 35 75 50 75C65 75 75 65 75 50Z" fill="url(#iconGradient)" opacity="0.6"/>
+</svg>

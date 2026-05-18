@@ -58,7 +58,7 @@ function makeCartId(productId: string, options: CartItemOptions) {
   return `${productId}::${JSON.stringify(options)}`;
 }
 
-const LS_KEY = "handmade_cart_v1";
+const LS_KEY = "Feedle_cart_v1";
 
 function loadFromStorage(): CartItem[] {
   try {
@@ -176,7 +176,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   // Fetch cart from backend when user logs in
   const refreshCart = useCallback(async () => {
-    const token = localStorage.getItem('handmade_token_v1');
+    const token = localStorage.getItem('Feedle_token_v1');
     
     if (!user || !token) {
       // If not logged in, load from localStorage

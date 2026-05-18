@@ -22,7 +22,7 @@ function EmptyCart({ onClose }: { onClose: () => void }) {
         color: "#3d2b1f", margin: "0 0 8px" }}>Your cart is empty</h3>
       <p style={{ fontFamily: "'Poppins',sans-serif", fontSize: 13.5, color: "#8a6a55",
         margin: "0 0 24px", lineHeight: 1.6 }}>
-        Discover handmade pieces crafted with love.
+        Discover Feedle pieces crafted with love.
       </p>
       <button
         onClick={() => { onClose(); setLocation("/marketplace"); }}

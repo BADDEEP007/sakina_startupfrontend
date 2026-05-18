@@ -38,7 +38,7 @@ export default function Navbar() {
             <span className="text-white font-playfair text-lg font-bold">✦</span>
           </div>
           <div>
-            <p className="text-lg font-playfair font-bold leading-tight" style={{ color: "#2A2A2A" }}>Handmade</p>
+            <p className="text-lg font-playfair font-bold leading-tight" style={{ color: "#2A2A2A" }}>Feedle</p>
             <p className="text-xs font-poppins" style={{ color: "#4A4A4A" }}>with Love</p>
           </div>
         </Link>

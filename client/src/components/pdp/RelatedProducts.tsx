@@ -20,7 +20,7 @@ export default function RelatedProducts({ products }: RelatedProductsProps) {
           <h2 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 22,
             color: "#3d2b1f", margin: 0 }}>You might also like</h2>
           <p style={{ fontFamily: "'Poppins',sans-serif", fontSize: 13, color: "#8a6a55",
-            margin: "4px 0 0" }}>More handmade pieces from our community</p>
+            margin: "4px 0 0" }}>More Feedle pieces from our community</p>
         </div>
         <button
           onClick={() => setLocation("/marketplace")}
