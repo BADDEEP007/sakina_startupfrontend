@@ -147,9 +147,9 @@ function CollectionCard({ collection, slot, onClick }: CardProps) {
       onClick={slot !== 0 ? onClick : undefined}
       style={{
         position: "absolute",
-        width: "100%",
-        maxWidth: 420,
-        left: "50%",
+        width: "50%",
+       
+        left:"40%",
         top: 0,
         bottom: 0,
         marginLeft: "-210px", // half of maxWidth
@@ -168,6 +168,7 @@ function CollectionCard({ collection, slot, onClick }: CardProps) {
       <div
         className="relative w-full h-full rounded-3xl overflow-hidden select-none"
         style={{
+          width:"80%",
           boxShadow: isActive
             ? "0 24px 60px rgba(0,0,0,0.22), 0 8px 20px rgba(0,0,0,0.12)"
             : "0 8px 24px rgba(0,0,0,0.12)",
@@ -228,7 +229,7 @@ function CollectionCard({ collection, slot, onClick }: CardProps) {
                          border border-white/50 backdrop-blur-sm
                          hover:bg-white hover:text-foreground
                          transition-all duration-300"
-              style={{ background: "rgba(255,255,255,0.15)" }}
+              style={{ background: "rgba(255,255,255,0.15)" , padding:10,marginLeft:10,marginBottom:10}}
             >
               Explore →
             </button>
@@ -274,24 +275,29 @@ export default function FeaturedCollections() {
     <section
       className="relative w-full py-24 overflow-hidden"
       style={{
+         display: 'flex',
+    flexDirection: 'column',   /* Keeps content inside stacked neatly */
+    justifyContent: 'center',  /* Centers content horizontally */
+    width: '100%',
+    textAlign: 'center',
         background:
           "linear-gradient(180deg, #faf8f3 0%, #f5f0e8 50%, #faf8f3 100%)",
       }}
       id="featured-collections"
     >
       {/* ── Header ── */}
-      <div className="container mx-auto px-4 text-center mb-16">
+      <div style={{paddingLeft:"30%" }} className="container mx-auto px-10 text-center mb-16">
         <div className="flex items-center justify-center gap-3 mb-4">
           <div className="h-px w-12 bg-gradient-to-r from-transparent to-accent" />
-          <span className="text-xs font-poppins font-semibold tracking-widest uppercase text-accent">
+          <span  className="text-xs font-poppins font-semibold tracking-widest uppercase text-accent">
             Curated for you
           </span>
           <div className="h-px w-12 bg-gradient-to-l from-transparent to-accent" />
         </div>
-        <h2 className="font-playfair text-4xl sm:text-5xl font-bold mb-3" style={{ color: "#2A2A2A" }}>
+        <h2  className="font-playfair text-4xl sm:text-5xl font-bold mb-3" style={{ color: "#2A2A2A", paddingRight:"%",marginBottom:20}}>
           Featured Collections
         </h2>
-        <p className="font-poppins text-foreground/60 text-lg max-w-lg mx-auto" style={{ fontFamily: "'Inter','Poppins',sans-serif", color: "#4A4A4A" }}>
+        <p className="font-poppins text-foreground/60 text-lg max-w-lg mx-auto" style={{marginLeft:"20%",marginBottom:30, fontFamily: "'Inter','Poppins',sans-serif", color: "#4A4A4A" }}>
           Handpicked stories woven with care — find the one that speaks to you.
         </p>
       </div>
@@ -299,7 +305,7 @@ export default function FeaturedCollections() {
       {/* ── Carousel — NO edge fades ── */}
       <div
         className="relative mx-auto"
-        style={{ maxWidth: 900, height: isMobile ? 420 : 500 }}
+        style={{  height: isMobile ? 420 : 500 }}
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
         onTouchStart={onTouchStart}
@@ -348,7 +354,8 @@ export default function FeaturedCollections() {
       </div>
 
       {/* ── Progress dots + bar ── */}
-      <div className="mt-10 flex flex-col items-center gap-4">
+      <div style={{marginTop:"3%"}} 
+      className="mt-10 flex flex-col items-center gap-4">
         {/* Dots */}
         <div className="flex items-center gap-2.5">
           {COLLECTIONS.map((_, i) => (

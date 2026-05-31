@@ -69,7 +69,7 @@ export function SellerProvider({ children }: { children: React.ReactNode }) {
 
   // Fetch seller profile from backend
   const refreshProfile = useCallback(async () => {
-    const token = localStorage.getItem('handmade_token_v1');
+    const token = localStorage.getItem('feedle_token_v1');
     if (!token) {
       dispatch({ type: "SET_PROFILE", profile: null });
       return;

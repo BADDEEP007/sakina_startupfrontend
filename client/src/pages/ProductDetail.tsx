@@ -457,7 +457,7 @@ export default function ProductDetail() {
             border: "1px solid rgba(196,164,132,0.12)",
             boxShadow: "0 2px 8px rgba(196,164,132,0.06)",
           }}>
-            <TrustBadge label="100% Handmade" icon={
+            <TrustBadge label="100% Handcrafted" icon={
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c4a484" strokeWidth="1.8" strokeLinecap="round">
                 <path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
                 <line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>

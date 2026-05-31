@@ -31,10 +31,10 @@ export default function Navbar() {
         boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
       }}
     >
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+      <div style={{margin:10,paddingLeft: "13.5%" , paddingRight: "5%", justifyItems:"center"}} className="container mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 no-underline">
-          <div className="w-10 h-10 rounded-full flex items-center justify-center shadow-sm" style={{ background: "#C45E73" }}>
+        <Link href="/"  className=" flex items-center gap-2 no-underline ">
+          <div className=" w-10 h-10 rounded-full flex items-center justify-center shadow-sm" style={{ background: "#C45E73" }}>
             <span className="text-white font-playfair text-lg font-bold">✦</span>
           </div>
           <div>

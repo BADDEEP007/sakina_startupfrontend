@@ -55,6 +55,66 @@ const CATEGORIES: Category[] = [
     name: "Custom",
     image: "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?w=500&q=85",
   },
+   {
+    id: "sweaters",
+    name: "Sweaters",
+    image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=500&q=85",
+  },
+  {
+    id: "bags",
+    name: "Bags",
+    image: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500&q=85",
+  },
+  {
+    id: "accessories",
+    name: "Accessories",
+    image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=500&q=85",
+  },
+  {
+    id: "hats",
+    name: "Hats",
+    image: "https://images.unsplash.com/photo-1521369909029-2afed882baee?w=500&q=85",
+  },
+  {
+    id: "blankets",
+    name: "Blankets",
+    image: "https://images.unsplash.com/photo-1578500494198-246f612d03b3?w=500&q=85",
+  },
+  {
+    id: "custom",
+    name: "Custom",
+    image: "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?w=500&q=85",
+  },
+   {
+    id: "sweaters",
+    name: "Sweaters",
+    image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=500&q=85",
+  },
+  {
+    id: "bags",
+    name: "Bags",
+    image: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500&q=85",
+  },
+  {
+    id: "accessories",
+    name: "Accessories",
+    image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=500&q=85",
+  },
+  {
+    id: "hats",
+    name: "Hats",
+    image: "https://images.unsplash.com/photo-1521369909029-2afed882baee?w=500&q=85",
+  },
+  {
+    id: "blankets",
+    name: "Blankets",
+    image: "https://images.unsplash.com/photo-1578500494198-246f612d03b3?w=500&q=85",
+  },
+  {
+    id: "custom",
+    name: "Custom",
+    image: "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?w=500&q=85",
+  },
 ];
 
 // ─── Single card — matches the reference image exactly ───────────────────────
@@ -145,19 +205,16 @@ export default function TactileCategories() {
     >
       {/* ── Header ── */}
       <div
-        style={{
-          maxWidth: "80rem",
-          margin: "0 auto 36px",
-          padding: "0 24px",
-        }}
+       
       >
         <h2
           style={{
+            margin:"0 auto",
             fontFamily: "'Playfair Display', Georgia, serif",
             fontWeight: 700,
             fontSize: "clamp(1.75rem, 3vw, 2rem)",
             color: "#2A2A2A",
-            margin: "0 0 8px",
+            paddingLeft:"45%",
             lineHeight: 1.2,
           }}
         >
@@ -169,7 +226,9 @@ export default function TactileCategories() {
             fontWeight: 400,
             fontSize: "1.0625rem",
             color: "#4A4A4A",
-            margin: 0,
+            paddingLeft:"44.6%",
+
+            marginBottom: 10,
           }}
         >
           Explore our handmade collections.

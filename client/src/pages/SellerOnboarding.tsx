@@ -139,7 +139,7 @@ function StepHead({ title, sub }: { title: string; sub: string }) {
 
 // ─── Work type options ────────────────────────────────────────────────────────
 
-const WORK_TYPES = ["Crochet", "Knitting", "Handmade Accessories", "Fabric Art", "Embroidery", "Other"];
+const WORK_TYPES = ["Crochet", "Knitting", "Handcrafted Accessories", "Fabric Art", "Embroidery", "Other"];
 
 // ─── Data shape ───────────────────────────────────────────────────────────────
 

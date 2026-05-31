@@ -31,7 +31,7 @@ function SellerPanel() {
         </svg>
       ),
       label: "Add Product",
-      sub: "List a new handmade item",
+      sub: "List a new handcrafted item",
       primary: true,
       onClick: () => { closePanel(); setLocation("/seller/add-product"); },
     },
@@ -151,7 +151,7 @@ function SellerPanel() {
         <div style={{ padding: "16px 24px", borderTop: "1px solid rgba(196,164,132,0.12)" }}>
           <p style={{ fontFamily: "'Poppins',sans-serif", fontSize: 11.5, color: "#a08070",
             textAlign: "center", margin: 0 }}>
-            ✦ Handmade with Love marketplace
+            ✦ Feedle marketplace
           </p>
         </div>
       </div>
@@ -233,7 +233,7 @@ export default function SellerProfile() {
               fontFamily: "'Poppins',sans-serif", fontSize: 16, color: "#8a6a55",
               margin: "0 0 32px", lineHeight: 1.6 
             }}>
-              Start your handmade business and reach customers who love unique, crafted items. 
+              Start your handcrafted business and reach customers who love unique, crafted items. 
               Set up your seller profile to begin listing your products.
             </p>
             <button
@@ -361,7 +361,7 @@ export default function SellerProfile() {
             </h2>
             <p style={{ fontFamily: "'Poppins',sans-serif", fontSize: 14.5, color: "#8a6a55",
               margin: "0 0 28px", maxWidth: 360, marginLeft: "auto", marginRight: "auto" }}>
-              Start listing your handmade creations and reach buyers who love unique, crafted pieces.
+              Start listing your handcrafted creations and reach buyers who love unique, crafted pieces.
             </p>
             <button
               onClick={openPanel}
