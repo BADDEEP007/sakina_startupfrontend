@@ -149,7 +149,7 @@ function CollectionCard({ collection, slot, onClick }: CardProps) {
         position: "absolute",
         width: "50%",
        
-        left:"40%",
+        left:"45%",
         top: 0,
         bottom: 0,
         marginLeft: "-210px", // half of maxWidth
