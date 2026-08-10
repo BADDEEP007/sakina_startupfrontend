@@ -291,7 +291,7 @@ export default function WhyFeedle() {
             }}
           >
             <img
-              src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=85"
+              src="images/madeforu.jpeg"
               alt="Hands knitting crochet yarn"
               style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
               draggable={false}

@@ -255,9 +255,9 @@ export default function DualCTA() {
       >
         {/* LEFT — Buyer */}
         <Panel
-          image="https://images.unsplash.com/photo-1612198188060-c7c2a3b66eae?w=900&q=85"
-          overlayFrom="rgba(245,230,204,0.55)"
-          overlayTo="rgba(196,164,132,0.72)"
+          image="images/joinus.jpeg"
+          overlayFrom="rgba(255, 255, 255, 0.55)"
+          overlayTo="rgba(0, 0, 0, 0.72)"
           eyebrow="For shoppers"
           heading={"Find Something\nMade Just for You"}
           subtext="Discover one-of-a-kind handmade pieces crafted with love — no two are ever the same."
@@ -280,7 +280,7 @@ export default function DualCTA() {
 
         {/* RIGHT — Seller */}
         <Panel
-          image="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=85"
+          image="images/joinassellet.jpeg"
           overlayFrom="rgba(200,182,255,0.45)"
           overlayTo="rgba(244,167,185,0.68)"
           eyebrow="For creators"

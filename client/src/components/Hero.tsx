@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import { useLocation } from "wouter";
 import { useState, useEffect } from "react";
 
+
 export default function Hero() {
   const [, setLocation] = useLocation();
   const [viewport, setViewport] = useState<'mobile' | 'tablet' | 'desktop' | 'large'>('desktop');
@@ -31,7 +32,7 @@ export default function Hero() {
      - Warm taupe full-bleed background (#C9A99A gradient)
      - Frosted white card in the centre (rounded-3xl, backdrop-blur)
      - Three crochet product photos arranged around the card
-     - H1 "Feedle with Love" — Playfair, dark charcoal, centred
+     - H1 "Feedle with love" — Playfair, dark charcoal, centred
      - Body copy — Inter, centred
      - Primary pill button: #C45E73 pink, white text, arrow
      - Secondary pill button: warm taupe fill, dark text
@@ -87,7 +88,7 @@ export default function Hero() {
           boxShadow: "0 4px 20px rgba(0,0,0,0.14)",
         }}>
           <img
-            src="client/public/images/hero-crochet-flatlay-5ZM33zrHNzpk8HJt7TKQxi.webp"
+            src="images/featuredsection.jpeg"
             alt="" aria-hidden
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
@@ -222,7 +223,12 @@ export default function Hero() {
             margin: "0 0 8px",   /* compressed mb */
             letterSpacing: "-0.01em",
           }}>
-            Feedle with Love
+            Handmade 
+            
+           <span className="block text-accent mt-2">
+            Made for You
+            
+            </span> 
           </h1>
 
           {/* Body — compressed mb */}
@@ -443,7 +449,11 @@ export default function Hero() {
             margin: "0 0 12px",
             letterSpacing: "-0.01em",
           }}>
-            Feedle with Love
+            Handmade 
+            <span className="block text-accent mt-2">
+            Made for You
+            
+            </span> 
           </h1>
 
           <p style={{
@@ -577,7 +587,7 @@ export default function Hero() {
     >
       <div className="absolute inset-0 z-0">
         <img
-          src="https://d2xsxph8kpxj0f.cloudfront.net/310519663551432808/LbhAdw86gWwUBeNNLSPuNP/hero-crochet-flatlay-5ZM33zrHNzpk8HJt7TKQxi.webp"
+          src="images/featuredsection.jpeg"
           alt="Feedle crochet background"
           className="w-full h-full object-cover"
         />
@@ -598,8 +608,9 @@ export default function Hero() {
               ? 'text-4xl lg:text-5xl' 
               : 'text-5xl sm:text-6xl lg:text-7xl'
           }`}>
-            Feedle with
-            <span className="block text-accent mt-2">Love</span>
+            Every Piece Has a Story
+           
+             <span className="block text-accent mt-2"> Every Story Has a Maker</span>
           </h1>
 
           <p className={`text-foreground/80 font-poppins mb-8 max-w-xl leading-relaxed ${
