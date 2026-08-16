@@ -5,11 +5,7 @@
 
 const COM_API_BASE_URL = import.meta.env.VITE_ECOM_URL
 
-const AUTH_API_BASE_URL = import.meta.env.PROD 
-  ? (import.meta.env.VITE_AUTH_API_URL || 'https://your-api-url.com')
-  : ''; // Empty string uses Vite proxy
-
-
+console.log(COM_API_BASE_URL)
 // Must match the key used in AuthContext.tsx
 const LS_TOKEN = "Feedle_token_v1";
 
