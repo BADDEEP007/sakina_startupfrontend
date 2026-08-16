@@ -167,7 +167,7 @@ export default function ProductDetail() {
         setLoading(true);
         setError(null);
         
-        // Fetch product details
+        // Fetch
         const productData = await productsApi.getById(params.id);
         setProduct(productData.product);
         
