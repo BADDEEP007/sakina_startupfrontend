@@ -109,7 +109,7 @@ export default function Marketplace() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch products from backend
+  // Fec
   useEffect(() => {
     const fetchProducts = async () => {
       try {
