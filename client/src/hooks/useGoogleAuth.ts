@@ -4,7 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID as string | undefined;
-const API_BASE = import.meta.env.VITE_AUTH_API_URL ?? "";
+const API_BASE = import.meta.env.VITE_API_URL ?? "";
 
 // ── Singleton guard ────────────────────────────────────────────────────────────
 // FedCM enforces one outstanding navigator.credentials.get() at a time.

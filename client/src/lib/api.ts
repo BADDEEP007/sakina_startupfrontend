@@ -4,14 +4,13 @@
  */
 
 const COM_API_BASE_URL = import.meta.env.PROD 
-  ? (import.meta.env.VITE_COM_API_URL || 'https://your-api-url.com')
+  ? (import.meta.env.VITE_ECOM_URL || 'https://your-api-url.com')
   : ''; // Empty string uses Vite proxy
 
 const AUTH_API_BASE_URL = import.meta.env.PROD 
   ? (import.meta.env.VITE_AUTH_API_URL || 'https://your-api-url.com')
   : ''; // Empty string uses Vite proxy
 
-  
 
 // Must match the key used in AuthContext.tsx
 const LS_TOKEN = "Feedle_token_v1";
@@ -75,7 +74,7 @@ export const productsApi = {
     const url = `${COM_API_BASE_URL}/products${queryParams.toString() ? `?${queryParams}` : ''}`;
     return fetchWithAuth(url);
   },
-
+  
   getById: async (id: string) => {
     return fetchWithAuth(`${COM_API_BASE_URL}/products/${id}`);
   },
