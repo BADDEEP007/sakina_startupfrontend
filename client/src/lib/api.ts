@@ -5,7 +5,7 @@
 
 const COM_API_BASE_URL = import.meta.env.VITE_ECOM_URL
 
-console.log(COM_API_BASE_URL)
+
 // Must match the key used in AuthContext.tsx
 const LS_TOKEN = "Feedle_token_v1";
 
@@ -17,7 +17,7 @@ async function fetchWithAuth(url: string, options: RequestInit = {}) {
   
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
-    
+
     ...(options.headers as Record<string, string>),
   };
 
