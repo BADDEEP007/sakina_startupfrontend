@@ -121,7 +121,7 @@ export default function Marketplace() {
           min_price: filters.minPrice > 0 ? filters.minPrice : undefined,
           max_price: filters.maxPrice < 200 ? filters.maxPrice : undefined,
         });
-        console.log(response)
+        console.log("pradeep:",response )
         setProducts(response.products || []);
       } catch (err) {
         console.error("Failed to fetch products:", err);
