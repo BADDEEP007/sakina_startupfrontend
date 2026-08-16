@@ -3,9 +3,7 @@
  * Base URL uses Vite proxy in development, direct URL in production
  */
 
-const COM_API_BASE_URL = import.meta.env.PROD 
-  ? (import.meta.env.VITE_ECOM_URL || 'https://your-api-url.com')
-  : ''; // Empty string uses Vite proxy
+const COM_API_BASE_URL = import.meta.env.VITE_ECOM_URL
 
 const AUTH_API_BASE_URL = import.meta.env.PROD 
   ? (import.meta.env.VITE_AUTH_API_URL || 'https://your-api-url.com')
