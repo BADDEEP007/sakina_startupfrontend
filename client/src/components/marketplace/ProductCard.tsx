@@ -37,7 +37,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   const [wishlisted, setWishlisted] = useState(false);
   const [, setLocation] = useLocation();
   const { addToCart } = useCart();
-
+  console.log("product",product)
   return (
     <div
       onMouseEnter={() => setHovered(true)}
@@ -59,7 +59,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       {/* Image container */}
       <div style={{ position: "relative", aspectRatio: "4/3", overflow: "hidden" }}>
         <img
-          src={product.image}
+          src={product.images[0]}
           alt={product.name}
           draggable={false}
           style={{
@@ -78,14 +78,14 @@ export default function ProductCard({ product }: ProductCardProps) {
               padding: "3px 9px", letterSpacing: "0.04em",
             }}>NEW</span>
           )}
-          {product.isBestSeller && (
+          {product.stock<10 && (
             <span style={{
               fontFamily: "'Poppins',sans-serif", fontWeight: 700, fontSize: 10,
               color: "#fff", background: "#f4a7b9", borderRadius: 50,
               padding: "3px 9px", letterSpacing: "0.04em",
             }}>★ BEST</span>
           )}
-          {!product.inStock && (
+          {!product.stock && (
             <span style={{
               fontFamily: "'Poppins',sans-serif", fontWeight: 700, fontSize: 10,
               color: "#fff", background: "rgba(0,0,0,0.45)", borderRadius: 50,
@@ -137,14 +137,14 @@ export default function ProductCard({ product }: ProductCardProps) {
           >
             View Product
           </button>
-          {product.inStock && (
+          {product.stock && (
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 addToCart({
-                  productId: product.id,
+                  productid: product.id,
                   name: product.name,
-                  image: product.image,
+                  image: product.images[0],
                   price: product.price,
                   selectedOptions: {},
                   sellerName: product.seller,
@@ -178,15 +178,15 @@ export default function ProductCard({ product }: ProductCardProps) {
           fontFamily: "'Poppins',sans-serif", fontWeight: 400, fontSize: 11.5,
           color: "#c4a484", margin: "0 0 8px",
         }}>
-          Made by {product.seller}
+          Made by {product.shop_name}
         </p>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <Stars rating={product.rating} />
+          {/* <Stars rating={product.rating} /> */}
           <span style={{
             fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 15,
             color: "#d4856a",
           }}>
-            ${product.price}
+            ${product.original_price}
           </span>
         </div>
       </div>

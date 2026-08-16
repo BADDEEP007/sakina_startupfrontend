@@ -84,6 +84,7 @@ export const productsApi = {
     return fetchWithAuth(`${COM_API_BASE_URL}/products/categories`);
   },
 
+
   create: async (data: {
     name: string;
     description?: string;

@@ -20,7 +20,7 @@ function ensureGsiInitialized(callback: (credential: string) => void) {
     client_id: GOOGLE_CLIENT_ID,
     callback: (r) => callback(r.credential),
     auto_select: false,           // prevents AbortError from premature credential grab
-    cancel_on_tap_outside: true,
+    cancel_on_tap_outside: false,
     use_fedcm_for_prompt: true,   // satisfies new FedCM requirement, silences migration warnings
   });
 
@@ -47,6 +47,8 @@ export function useGoogleAuth() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ token: credential }),
         });
+
+        console.log(res)
 
         const data = await res.json() as {
           success: boolean;

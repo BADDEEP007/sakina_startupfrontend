@@ -33,7 +33,7 @@ function ErrorBanner({ message }: { message: string }) {
         <line x1="12" y1="8" x2="12" y2="12"/>
         <line x1="12" y1="16" x2="12.01" y2="16"/>
       </svg>
-      <p style={{ fontFamily: "'Inter','Poppins',sans-serif", fontSize: 12.5, color: "#c0505f", margin: 0, lineHeight: 1.5 }}>
+      <p style={{ fontFamily: "'Inter','Poppins',sans-serif", fontSize: 12.5, color: "#c2263bff", margin: 0, lineHeight: 1.5 }}>
         {message}
       </p>
     </div>
