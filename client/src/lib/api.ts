@@ -17,6 +17,7 @@ async function fetchWithAuth(url: string, options: RequestInit = {}) {
   
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
+    
     ...(options.headers as Record<string, string>),
   };
 
